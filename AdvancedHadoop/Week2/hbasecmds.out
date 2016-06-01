@@ -1,0 +1,67 @@
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.94.19, r1588997, Tue Apr 22 00:21:01 UTC 2014
+
+list
+TABLE
+wikistats
+1 row(s) in 0.9050 seconds
+
+
+describe 'wikistats'
+DESCRIPTION  ENABLED
+ 'wikistats', {NAME => 'meta', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'NONE', REPLICATION_SCOPE => '0', COMPRESSION => 'NONE', VERSIONS => '3', TTL => '2147483647', MIN_VERSIONS => '0', KEEP_DELETED_CELLS => 'false', BLOCKSIZE => '65536', ENCODE_ON_DISK => 'true', IN_MEMORY => 'false', BLOCKCACHE => 'true'}, {NAME => 'pagecounts', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'NONE', REPLICATION_SCOPE => '0', VERSIONS => '3', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => '2147483647', KEEP_DELETED_CELLS => 'false', BLOCKSIZE => '65536', IN_MEMORY => 'false', ENCODE_ON_DISK => 'true', BLOCKCACHE => 'true'} true
+1 row(s) in 0.0970 seconds
+
+
+get 'wikistats', 'Hadoop'
+COLUMN  CELL
+ meta:url timestamp=1402881264308, value=http://en.wikipedia.org/wiki/Hadoop
+ pagecounts:count timestamp=1402861072530, value=5
+ pagecounts:language timestamp=1402861072530, value=en
+ pagecounts:size timestamp=1402861072530, value=5
+4 row(s) in 0.1300 seconds
+
+
+disable 'wikistats'
+0 row(s) in 1.0870 seconds
+
+
+alter 'wikistats', 'meta'
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+0 row(s) in 1.1030 seconds
+
+
+enable 'wikistats'
+0 row(s) in 1.1770 seconds
+
+
+put 'wikistats', 'Hadoop', 'meta:url', 'http://en.wikipedia.org/wiki/Hadoop'
+0 row(s) in 0.0590 seconds
+
+
+put 'wikistats', 'Doge (meme)', 'pagecounts:language', 'en'
+0 row(s) in 0.0050 seconds
+
+
+put 'wikistats', 'Doge (meme)', 'pagecounts:size', 111
+0 row(s) in 0.0030 seconds
+
+
+#I've done this multiple times so counter > 50
+incr 'wikistats', 'Doge (meme)', 'pagecounts:count', 50
+COUNTER VALUE = 250
+
+
+get 'wikistats', 'Doge (meme)' 
+COLUMN  CELL
+ pagecounts:count timestamp=1402881370806, value=\x00\x00\x00\x00\x00\x00\x00\xFA
+ pagecounts:language timestamp=1402881370761, value=en
+ pagecounts:size timestamp=1402881370781, value=111
+3 row(s) in 0.0210 seconds
+
+
+get_counter 'wikistats', 'Doge (meme)', 'pagecounts:count'COUNTER VALUE = 250
+

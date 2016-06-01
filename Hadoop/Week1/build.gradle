@@ -1,0 +1,26 @@
+
+version="0.0.1"
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'commons-lang:commons-lang:2.6'
+	compile 'joda-time:joda-time:2.3'
+	
+	testCompile 'junit:junit:4.11'
+}
+
+test {
+   minHeapSize = "2048m"
+   maxHeapSize = "2048m"
+
+   jvmArgs '-XX:MaxPermSize=256m'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}

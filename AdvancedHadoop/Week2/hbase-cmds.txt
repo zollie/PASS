@@ -1,0 +1,24 @@
+list
+
+describe 'wikistats'
+
+get 'wikistats', 'Hadoop'
+
+disable 'wikistats'
+
+alter 'wikistats', 'meta'
+
+enable 'wikistats'
+
+put 'wikistats', 'Hadoop', 'meta:url', 'http://en.wikipedia.org/wiki/Hadoop'
+
+put 'wikistats', 'Doge (meme)', 'pagecounts:language', 'en'
+
+put 'wikistats', 'Doge (meme)', 'pagecounts:size', 111
+
+#I've done this multiple times so counter > 50
+incr 'wikistats', 'Doge (meme)', 'pagecounts:count', 50
+
+get 'wikistats', 'Doge (meme)' 
+
+get_counter 'wikistats', 'Doge (meme)', 'pagecounts:count'

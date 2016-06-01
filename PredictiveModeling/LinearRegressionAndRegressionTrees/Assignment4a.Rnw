@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Predictive Modeling\\Lesson 4a\\\emph{Linear Regression and Regression Trees}}
+\date{10/06/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+The RStudio project files and accompanying artifacts, including the tex file that created this PDF, are publicly available on GitHub
+\\
+\url{https://github.com/zollie/PASS-PredictiveModeling-LinearRegressionAndRegressionTrees}
+
+\section*{Data Setup}
+I took the Excel spreadsheet and saved it as a CSV for easy import into R
+<<>>=
+bh <- read.csv("~/R/PASS/PredictiveModeling/LinearRegressionAndRegressionTrees/BostonHousing.csv")
+
+bh$X <- NULL
+bh$X.1 <- NULL
+bh$X.2 <- NULL
+bh$X.3 <- NULL
+bh$X.4 <- NULL
+
+head(bh)
+@
+
+
+\section*{Partitioning}
+Next, the data is paritioned into 60\% Train and 40\% Test sets. I set the RNG seed for reproducibility
+<<>>=Partitioning Data into Train(60%) and Validation(40%)
+set.seed(21275)
+n <- nrow(bh)
+a <- sort(sample(1:n, floor(n*.6)))
+bh.train <- bh[a,]
+bh.test <- bh[-a,]
+@
+
+\section*{Linear Regression}
+A Linear Regression model is fit to the train data. Then the model is used to make predictions using the test data while calculating the standard error for the Root Standard Mean Error
+<<>>=
+mlr <- lm(MEDV ~ ., data=bh.test)
+summary(mlr)
+
+mlr.pred <- predict(mlr, newdata=bh.test, se.fit=TRUE)
+
+head(mlr.pred)
+
+summary(mlr.pred$se.fit)
+
+se <-mean(mlr.pred$se.fit)
+se
+
+rse <- sqrt(se)
+rse
+@
+
+\section*{Regression Trees}
+
+First a function is created to build Regresstion Trees with varying paremeters. Next, this function is used to build Regression Trees.
+
+<<>>=
+f <- function(minspl, minbuck) {
+  require(rpart)
+  require(rpart.plot)
+  
+  rtree <- rpart(MEDV ~., data=bh.train, method="anova", minsplit=minspl, minbucket=minbuck)
+  
+  # pruned with min xerror
+  rtree.pruned <- prune(rtree, rtree$cptable[which.min(rtree$cptable[,"xerror"]),"CP"])  
+}
+
+rtree.A <- f(3, 1)
+rtree.B <- f(10, 3)
+rtree.C <- f(30, 1)
+
+printcp(rtree.A)
+rsq.rpart(rtree.A)
+#plotcp(rtree.A)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=FALSE>>=
+prp(rtree.A)
+@
+\end{center}
+\caption{rtree.A}
+\label{rtree:A}
+\end{figure}
+
+<<>>=
+printcp(rtree.B)
+rsq.rpart(rtree.B)
+#plotcp(rtree.B)
+@
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=FALSE>>=
+prp(rtree.B)
+@
+\end{center}
+\caption{rtree.B}
+\label{rtree:B}
+\end{figure}
+
+<<>>=
+printcp(rtree.C)
+rsq.rpart(rtree.C)
+#plotcp(rtree.C)
+@
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=FALSE>>=
+prp(rtree.C)
+@
+\end{center}
+\caption{rtree.C}
+\label{rtree:C}
+\end{figure}
+
+\section*{Lesson 4a Question and Answer}
+\subsection*1\emph{Report the root mean squared error on the validation data}
+
+<<>>=
+# root standard mean error from above
+rse
+@
+
+\subsection*2\emph{Use the regression tree procedure in XLMiner to develop several models to predict the median value of houses in census tracts. Try multiple combinations of the tuning parameters}
+\newline
+\newline
+\noindent
+See Above. 
+
+
+\end{document}

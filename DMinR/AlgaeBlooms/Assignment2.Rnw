@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\author{Kevin Zollicoffer}
+\title{Data Mining in R\\Assignment 2}
+\date{1/26/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Q.1}
+The proportion of variance in the observations is almost completely (1) explained by the model. 
+
+\section*{Q.2}
+k-1 integer [0:1] variables used to represent categories of a categorical variable where k is the number of categories.
+
+\section*{Q.3}
+It will fit the training data too perfectly capturing spurious relationships of the training data set, thus performing badly when faced with a new data sample for which predictions are required. 
+
+\section*{Q.4}
+To avoid over-fitting
+
+\section*{Q.5}
+Calculating the performance metrics using the training data is unreliable because the obtained estimates are biased. The performance metrics would hardly generalize over new sampeles for which the target variable is unknown. 
+
+\section*{Q.6}
+Testing the model on data not used for it's consrtruction
+
+\section*{Q.7}
+The model is performing very poorly. NMSE values are usually between 0 and 1 with lower values indicating better model performance
+
+\section*{Assignment}
+
+First we load the data
+
+<<>>=
+load("~/R/PASS/DMinR/AlgaeBlooms/algae.RData")
+head(algae)
+@
+
+Load the DMwR library
+<<>>=
+library(DMwR)
+@
+
+Impute missing data
+<<>>=
+clean.algae <- knnImputation(algae, k = 10)
+@
+
+Prepare cross validation functions
+
+<<>>=
+cv.rpart <- function(form,train,test,...) {
+m <- rpartXse(form,train,...)
+p <- predict(m,test)
+mae <- mean(abs(p-resp(form,test)))
+c(mae=mae)
+}
+@
+
+<<>>=
+DSs <- sapply(names(clean.algae)[12:18],
+function(x,names.attrs) {
+f <- as.formula(paste(x,"~ ."))
+dataset(f,clean.algae[,c(names.attrs,x)],x)
+},
+names(clean.algae)[1:11])
+@
+
+Perform comparisons
+<<>>=
+res.all <- experimentalComparison(
+DSs,
+c(variants('cv.rpart',se=c(0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8))),
+cvSettings(5,2,1234))
+summary(res.all)
+@
+
+Plotting all results
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(res.all)
+@
+
+Getting best scores
+<<>>=
+bs <- bestScores(res.all)
+bs
+@
+
+Plotting best variants of models for the given algae
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+# Subset by name not exact?
+res.all.v1 <- subset(res.all, vars='cv.rpart.v1')
+plot(res.all.v1)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+# Subset by name not exact?
+res.all.v2 <- subset(res.all, vars='cv.rpart.v2')
+plot(res.all.v2)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+# Subset by name not exact?
+res.all.v5 <- subset(res.all, vars='cv.rpart.v5')
+plot(res.all.v5)
+@
+\end{document}

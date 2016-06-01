@@ -1,0 +1,204 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Final}
+\date{11/04/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression final assignment using R
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS}
+
+\section*{Problem 5.5}
+<<>>=
+ubs <- read.csv("~/R/PASS/Regression/RegressionFinal/ubs.csv")
+ubs$Region = factor(ubs$Region)
+head(ubs)
+@
+
+\subsection*{a}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+pairs(cbind(ubs$Bigmac, 
+            ubs$DAs, ubs$DEm, ubs$DSa, 
+            ubs$Wage, ubs$Bread, 
+            ubs$Rice, ubs$Vac), 
+      labels=cbind("Bigmac", 
+                   "DAs", "DEm", "DSa", 
+                   "Wage", "Bread", 
+                   "Rice", "Vac"))
+@
+
+There seems to be clear linear relationships with Wage and Bigmac (negative), Bread and Bigmac, and Rice and Bigmac. The predictive power for Vac of Bigmac is less clear.  
+\\\\
+There seems to be some correlation between Wage and Bread, and Wage and Rice. 
+
+\subsection*{b}
+<<>>=
+model_b <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread+Rice+Vac, data=ubs)
+stu_b <- rstudent(model_b)
+summary(model_b)
+plot(ubs$Bread, stu_b)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+scatter.smooth(ubs$Bread, stu_b, span=.75)
+@
+\\\\
+The zero mean assumption can be tested with a loess line as above. 
+\\\\
+The constant variance assumption can be checked by ensuring the studentized residuals are distributed evenly about the mean. That is, they have a mean of 0 and a standard deviation of 1. 
+\\\\
+The independence assumption can be checked with a quick glance at a residual scatter plot to ensure there are no non-random patterns. 
+\\\\
+The normailty assumption can be checked with histograms and QQ plots as below.
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+hist(stu_b)
+@
+
+To check the constant vriance assumption we can use a histogram \ldots
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+qqnorm(stu_b)
+qqline(stu_b)
+@
+
+\subsection*{c}
+<<>>=
+DasWage <- ubs$DAs*ubs$Wage
+DasBread <- ubs$DAs*ubs$Bread
+DasRice <- ubs$DAs*ubs$Rice
+DasVac <- ubs$DAs*ubs$Vac
+
+DemWage <- ubs$DEm*ubs$Wage
+DemBread <- ubs$DEm*ubs$Bread
+DemRice <- ubs$DEm*ubs$Rice
+DemVac <- ubs$DEm*ubs$Vac
+
+DsaWage <- ubs$DSa*ubs$Wage
+DsaBread <- ubs$DSa*ubs$Bread
+DsaRice <- ubs$DSa*ubs$Rice
+DsaVac <- ubs$DSa*ubs$Vac
+@
+
+<<>>=
+model_c <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread+Rice
+              +Vac+DasWage+DasBread+DasRice+DasVac
+              +DemWage+DemBread+DemRice+DemVac+DsaWage
+              +DsaBread+DsaRice+DsaVac, data=ubs)
+
+summary(model_c)
+@
+
+The 3 interactions with largest p-value are \ldots
+\begin{enumerate}
+\item DemWage
+\item DemRice
+\item DsaWage
+\end{enumerate}
+
+\subsection*{d}
+<<>>=
+model_d <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread+Rice+Vac+DasWage+DasBread+DasRice+DasVac+DemBread+DemVac+DsaBread+DsaRice+DsaVac, data=ubs)
+summary(model_d)
+anova(model_d, model_c)
+@
+
+The p-value of .9886 > .05 therefore we cannot reject $H_0$. We can remove the 3 interactions with the largest p-value as statistically $DemWage=DemRice=DsaWage=0$
+
+\subsection*{e}
+<<>>=
+model_e <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread
+              +Rice+Vac+DasBread+DasRice+DasVac
+              +DemBread+DemVac+DsaBread, data=ubs)
+summary(model_e)
+anova(model_e, model_d)
+@
+
+The p-value of .886 > .05 therefore we cannot reject $H_0$. We can remove the 3 interactions considered here. 
+
+\subsection*{f}
+<<>>=
+model_f <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread+Rice+
+                Vac+DasBread+DasRice+DasVac+DemBread+DemVac+DsaBread, data=ubs)
+summary(model_f)
+@
+$H_0: DemBread=0$
+$H_a: D_{Em}\neq0$
+\\\\
+$.1484 > .05$ therefore we do not reject $H_0$
+
+\subsection*{g}
+<<>>=
+model_g <- lm(Bigmac ~ DAs+DEm+DSa+Wage+Bread+Rice+
+Vac+DasBread+DasRice+DasVac+DemVac+DsaBread, data=ubs)
+summary(model_g)
+stu_g <- rstudent(model_g)
+plot(ubs$Bread, stu_g)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+scatter.smooth(ubs$Bread, stu_g, span=.75)
+@
+
+The zero mean regression assumption now appears met. 
+
+\subsection*{h}
+$\hat{Bigmac}=3.861757-1.2709D_{As}+.8768D_{Em}-1.99.16D_{Sa}-.5479Wage+.15348Bread+.195452Rice+.021595Vac+.515727DasBread-.406481DasRice+.056577DasVac-.043681DemVac+.641239DsaBread$
+
+\subsection*{i}
+Yes, the economist is correct. The coefficient for Wage is negative meaning as Wage increases $\hat{Bigmac}$ decreases all else held constant. 
+
+\subsection*{j}
+<<>>=
+mWage <- mean(ubs$Wage)
+mBread <- mean(ubs$Bread)
+mRice <- mean(ubs$Rice)
+mVac <- mean(ubs$Vac)
+@
+
+$\hat{Bigmac}=3.861757-1.2709D_{As}+.8768D_{Em}-1.99.16D_{Sa}-mWage*Wage+.15348*Bread+mRice*Rice+mVac*Vac+.15348*DasBread-mRice*DasRice+mVac*DasVac-mVac*DemVac+.15348*DsaBread$
+\\
+<<>>=
+DasBread0 <- DasBread[ubs$DAs==0]
+DasBread1 <- DasBread[ubs$DAs==1]
+DsaBread0 <- DsaBread[ubs$DSa==0]
+DsaBread1 <- DsaBread[ubs$DSa==1]
+DasRice0 <- DasRice[ubs$DAs==0]
+DasRice1 <- DasRice[ubs$DAs==1]
+@
+
+
+
+\it{**I am having trouble producing the predictor effect plots below}
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(ubs$Bread, DasBread, type="n")
+lines(sort(ubs$Bread[ubs$DasBread==0]), DasBread0[order(ubs$Bread[ubs$DasBread==0])])
+lines(sort(ubs$Bread[ubs$DasBread==1]), DasBread1[order(ubs$Bread[ubs$DasBread==1])])
+
+@
+
+\subsection*{k}
+$\hat{Bigmac}=3.861757-1.2709D_{As}+.8768D_{Em}-1.99.16D_{Sa}-mWage*Wage+mBread*Bread+.195452*Rice+mVac*Vac+mBread*DasBread-.195452*DasRice+mVac*DasVac-mVac*DemVac+mBread*DsaBread$
+
+
+\subsection*{i}
+$\hat{Bigmac}=3.861757-1.2709D_{As}+.8768D_{Em}-1.99.16D_{Sa}-mWage*Wage+mBread*Bread+mRice*Rice+.021595*Vac+mBread*DasBread-mRice*DasRice+.021595*DasVac-.021595*DemVac+mBread*DsaBread$
+
+
+\end{document}

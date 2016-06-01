@@ -1,0 +1,159 @@
+
+
+--DROP DATABASE IF EXISTS baseball_stats;
+
+CREATE DATABASE IF NOT EXISTS baseball_stats;
+
+USE baseball_stats;
+
+CREATE TABLE IF NOT EXISTS master (
+lahmanID STRING,
+playerID STRING,
+managerID STRING,
+hofID STRING,
+birthYear STRING,
+birthMonth STRING,
+birthDay STRING,
+birthCountry STRING,
+birthState STRING,
+birthCity STRiNG,
+deathYear STRING,
+deathMonth STRING,
+deathDay STRING,
+deathCountry STRING,
+deathState STRING,
+deathCity STRING,
+nameFirst STRING,
+nameLast STRING,
+nameNote STRING,
+nameGive STRING,
+nameNick STRING,
+weight STRING,
+bats STRING,
+throws STRING,
+debut STRING,
+finalGame STRING,
+college STRING,
+lahman40ID STRING,
+lahman45ID STRING,
+retroID STRING,
+holtzID STRING,
+bbrefID STRING
+)
+ROW FORMAT DELIMITED
+	FIELDS TERMINATED BY ',';
+
+
+CREATE TABLE IF NOT EXISTS teams (
+yearID STRING,
+lgID STRING,
+teamID STRING,
+franchID STRING,
+divID STRING,
+rank STRING,
+G STRING,
+Ghome STRING,
+W STRING,
+L STRING,
+DivWin STRING,
+WCWin STRING,
+LgWin STRING,
+WSWin STRING,
+R STRING,
+AB STRING,
+H STRING,
+TWOB STRING,
+THREEB STRING,
+HR STRING,
+BB STRING,
+SO STRING,
+SB STRING,
+CS STRING,
+HBP STRING,
+SF STRING,
+RA STRING,
+ER STRING,
+ERA STRING,
+CG STRING,
+SHO STRING,
+SV STRING,
+IPouts STRING,
+HA STRING,
+HRA STRING,
+BBA STRING,
+SOA STRING,
+E STRING,
+DP STRING,
+FP STRING,
+name STRING,
+park STRING,
+attendance STRING,
+BPF STRING,
+PPF STRING,
+teamIDBR STRING,
+teamIDlahman STRING,
+teamIDretro STRING
+)
+ROW FORMAT DELIMITED 
+	FIELDS TERMINATED BY ',';
+
+
+
+CREATE TABLE IF NOT EXISTS batting (
+playerID STRING,
+yeardID STRING,
+stint STRING,
+teamID STRING,
+lgID STRING,
+G STRING,
+G_batting STRING,
+AB STRING,
+R STRING,
+H STRING,
+TWOB STRING,
+THREEB STRING,
+HR STRING,
+RBI STRING,
+SB STRING,
+CS STRING,
+BB STRING,
+SO STRING,
+IBB STRING,
+HBP STRING,
+SH STRING,
+SF STRING,
+GIDP STRING,
+G_old STRING
+)
+ROW FORMAT DELIMITED 
+	FIELDS TERMINATED BY ',';
+
+
+CREATE TABLE IF NOT EXISTS salaries (
+yearID STRING,
+teamID STRING,
+lgID STRING,
+playerID STRING,
+salary STRING
+)
+ROW FORMAT DELIMITED
+	FIELDS TERMINATED BY ',';
+
+
+
+LOAD DATA LOCAL INPATH '/mnt/hgfs/Share/baseball_data/Master.csv' 
+OVERWRITE INTO TABLE master;
+
+LOAD DATA LOCAL INPATH '/mnt/hgfs/Share/baseball_data/teams.csv' 
+OVERWRITE INTO TABLE teams;
+
+LOAD DATA LOCAL INPATH '/mnt/hgfs/Share/baseball_data/batting.csv' 
+OVERWRITE INTO TABLE batting;
+
+LOAD DATA LOCAL INPATH '/mnt/hgfs/Share/baseball_data/salaries.csv' 
+OVERWRITE INTO TABLE salaries;
+
+
+
+
+

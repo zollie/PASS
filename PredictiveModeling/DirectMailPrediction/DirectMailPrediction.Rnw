@@ -1,0 +1,313 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Predictive Modeling\\Final Project\\\emph{Direct Mail Fundraising Classification}}
+\date{10/07/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+The RStudio project files and accompanying artifacts, including the tex (Rnw) file that created this PDF, are publicly available on GitHub
+\\
+\url{https://github.com/zollie/PASS-PredictiveModeling-DirectMailPrediction}
+
+\section*{Preliminaries}
+The R code here is broken up into seperate scripts for general reuse and orginization. These are presented here, with full up to date versions available on GitHub
+
+\subsubsection*{data.R}
+Contains functions and code to load, clean, and setup the data
+<<>>=
+source('~/R/PASS/PredictiveModeling/DirectMailPrediction/data.R', 
+       echo=TRUE, max.deparse.length=10000)
+@
+
+\subsubsection*{funcs.R}
+Contains helper functions and code to build classification tables, charts, calculate lift, etc.  
+<<>>=
+source('~/R/PASS/PredictiveModeling/DirectMailPrediction/funcs.R', 
+       echo=TRUE, max.deparse.length=10000)
+@
+
+
+\section*{Data Setup}
+Factorized data will be used for Logistic Regression and CART
+<<>>=
+dd <- getDataWithLevels()
+n <- getRandomRowNums(dd)
+
+dd.train <- dd[n,]
+dd.test <- dd[-n,]
+@
+
+\section*{Model Building (a)}
+\subsection*{Logistic Regression}
+Logistic Regression is applied here with varying parameters and predictors used. For each continuos predictor, ROC and Lift curves will be generated to compare the models. 
+
+\subsubsection*{Using all predictors available}
+<<>>=
+logit <- glm(TARGET_B ~ ., family=binomial("logit"), data=dd.train)
+summary(logit)
+@
+\paragraph{Prediction}
+
+Prediction using the test data is done with the model and evaluated using ROC and Lift curves. 
+<<>>=
+logit.pred <- predict(logit, newdata=dd.test, type="response")
+summary(logit.pred)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawRoc(logit.pred, dd.test$TARGET_B)
+@
+\end{center}
+\caption{Logistic Regression ROC curve using all predictors}
+\label{lr-roc-a}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawLift(logit.pred, dd.test$TARGET_B)
+@
+\end{center}
+\caption{Logistic Regression Lift curve using all predictors}
+\label{lr-lift-a}
+\end{figure}
+
+\paragraph{Evaluation}
+Clearly, this model is not much better than the Naive Rule. 
+
+\paragraph{Subset Selection}
+Predictor reduction was attempted but in no case did the ROC curve suggest significantly better results than the Naive Rule. Attempting each predictor one by one also faired no better. The best predictor using Logistic Regression perhaps being LASTGIFT. 
+
+<<>>=
+logit.lg <- glm(TARGET_B ~ LASTGIFT, family = binomial("logit"), data = dd.train)
+logit.lg.pred <- predict(logit.lg, newdata=dd.test, type="response")
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawRoc(logit.lg.pred, dd.test$TARGET_B)
+@
+\end{center}
+\caption{Logistic Regression ROC curve using only LASTGIFT}
+\label{lr-roc-b}
+\end{figure}
+
+\paragraph{Classification Table and Net Profit}
+Classifcation Tables and NetProfit using this model is presented here
+
+<<>>=
+ct.logit.lg <- buildClassTab(logit.lg.pred, dd.test$TARGET_B)
+ct.logit.lg.a <- adjustTabForOversamp(ct.logit.lg, .051)
+ct.logit.net <- netFromCrossTab(ct.logit.lg.a, prices)
+ct.logit.net
+@
+
+\subsection*{CART}
+Classification Trees are attempted next
+
+<<>>=
+library(rpart.plot)
+
+tree.a <- buildClassTree(TARGET_B ~ ., dd.train, 3, 1)
+tree.b <- buildClassTree(TARGET_B ~ ., dd.train, 6, 2)
+tree.c <- buildClassTree(TARGET_B ~ ., dd.train, 12, 4)
+
+summary(tree.a)
+printcp(tree.a)
+rsq.rpart(tree.a)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+prp(tree.a)
+@
+\end{center}
+\caption{tree.a classification tree}
+\label{classt-a}
+\end{figure}
+
+<<>>=
+tree.a.pred <- predict(tree.a, newdata=dd.test, type="class")
+ct.tree.a <- buildClassTab(tree.a.pred, dd.test$TARGET_B, cutoff=NULL)
+ct.tree.a.a <- adjustTabForOversamp(ct.tree.a, .051)
+net.tree.a <- netFromCrossTab(ct.tree.a.a, prices)
+net.tree.a
+@
+
+<<>>=
+summary(tree.b)
+printcp(tree.b)
+rsq.rpart(tree.b)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+prp(tree.b)
+@
+\end{center}
+\caption{tree.b classification tree}
+\label{classt-b}
+\end{figure}
+
+<<>>=
+tree.b.pred <- predict(tree.b, newdata=dd.test, type="class")
+ct.tree.b <- buildClassTab(tree.b.pred, dd.test$TARGET_B, cutoff=NULL)
+ct.tree.b.a <- adjustTabForOversamp(ct.tree.b, .051)
+net.tree.b <- netFromCrossTab(ct.tree.b.a, prices)
+net.tree.b
+@
+
+
+<<>>=
+tree.c.pred <- predict(tree.c, newdata=dd.test, type="class")
+ct.tree.c <- buildClassTab(tree.c.pred, dd.test$TARGET_B, cutoff=NULL)
+ct.tree.c.a <- adjustTabForOversamp(ct.tree.c, .051)
+net.tree.c <- netFromCrossTab(ct.tree.c.a, prices)
+net.tree.c
+@
+
+<<>>=
+summary(tree.c)
+printcp(tree.c)
+rsq.rpart(tree.c)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+prp(tree.c)
+@
+\end{center}
+\caption{tree.c classification tree}
+\label{classt-c}
+\end{figure}
+
+<<>>=
+tree.c.pred <- predict(tree.c, newdata=dd.test, type="class")
+ct.tree.c <- buildClassTab(tree.c.pred, dd.test$TARGET_B, cutoff=NULL)
+ct.tree.c.a <- adjustTabForOversamp(ct.tree.c, .051)
+net.tree.c <- netFromCrossTab(ct.tree.c.a, prices)
+net.tree.c
+@
+
+\subsection*{Neural Networks}
+The data for a Neural Net needs to be prepared so that the predictors are in the range of [0:1]. Using all predictors resulted in a ROC curve nearly equal to that of the Naive Rule. Therefore, domain knowledge provided by the case writeup was used to prune predictors
+
+<<>>=
+library(nnet)
+ddn <- getNnDataPruned()
+n <- getRandomRowNums()
+ddn.train <- ddn[n,]
+ddn.test <- ddn[-n,]
+nn <- nnet(TARGET_B ~ ., data=ddn.train, size=1)
+nn.pred <- predict(nn, newdata=ddn.test)
+@
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawRoc(nn.pred, ddn.test$TARGET_B)
+@
+\end{center}
+\caption{Neural Net ROC curve using Subset Selection}
+\label{nn-roc-a}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawLift(nn.pred, ddn.test$TARGET_B)
+@
+\end{center}
+\caption{Neural Net Lift curve using Subset Selection}
+\label{nn-lift-a}
+\end{figure}
+
+\subsubsection*{Classication Table and Net Profit}
+
+<<>>=
+nn.ct <- buildClassTab(nn.pred, ddn.test$TARGET_B)
+nn.ct
+nn.ct.a <- adjustTabForOversamp(nn.ct, .051)
+nn.ct.a
+nn.ct.net <- netFromCrossTab(nn.ct.a, prices)
+nn.ct.net
+@
+
+\section*{Classification under asymmetric response and cost (b)}
+{\it
+What is the reasoning behind using weighted sampling to produce training and validation sets with equal numbers of donors and non-donors? Why not use a simple random sample from the original dataset? In this case, is classification accuracy a good performance metric for our purposes of maximizing net profit? If not, how would you determine the best model? Please explain your reasoning.}
+
+\noindent
+\newline
+If simple sampling were used, the non-responders would drown out the responders due to the 94.9\% rate of non-responders. Using weighted (over) sampling mitigates this phenomonon. 
+
+\noindent
+\newline
+Classification accuracy is not a good indication of performance as there is a much greater interest in classifiying responders from non-responders.
+
+\noindent
+The best model is determined by comparison. Maximzing fund raising is the goal so the model that produces the Classification Table where this is so wins. ROC and Lift curves are used for quick comparison and to rule out models more quickly then rote eximnation of Classification Tables. 
+
+\section*{Calculate Net Profit (c)}
+{\it
+For each method, calculate the lift of net profit for both the training and validation set based on the actual response rate 5.1\%. Again, the expected donation, given that they are donors, is \$13.00, and the total cost of each mailing is \$0.68.}
+
+\noindent
+\newline
+This was done for each model above, including adjusting for oversampling
+
+\noindent
+\newline
+In summary
+<<>>=
+ct.logit.net
+net.tree.a
+nn.ct.net
+
+
+@
+\section*{Draw Lift Curves (d)}
+{\it
+Draw each models net profit lift curve for the validation set onto a single graph. Are there
+any models that dominate?}
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+drawLift(logit.pred, dd.test$TARGET_B)
+drawLift(nn.pred, ddn.test$TARGET_B, add=TRUE)
+#drawLift(tree.a.pred, dd.test$TARGET_B, add=TRUE)
+@
+
+\section*{Best Model (e)}
+{\it
+From your answer in part 2b, what do you think is the best model?}
+
+\noindent
+\newline
+I choose the Neural Network model as the best in this case. It seems to model the complex relationships between the predcitor variables more accurately, although no model is a clear winner. In this case, it maximizes the fundraising goal. 
+
+\section*{Future Data}
+<<>>=
+fdd <- getFutureDataClean()
+fdd.nn <- getNnDataPruned(fdd)
+fdd.pred <- predict(nn, newdata=fdd)
+summary(fdd.pred)
+
+fdd.pred
+
+@
+\end{document}
+
+

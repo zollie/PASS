@@ -1,0 +1,223 @@
+
+Test Mining
+Kevin Zollicoffer
+Week 3
+
+1)
+NA
+
+2)
+Please see attached Python project. 
+
+Output is:
+
+begin q2()
+TMPY> Creating document vectors
+TMPY> Tokenizing documents
+TMPY> Removing stopwords
+TMPY> Stemming tokens
+TMPY> Generating dictionary
+TMPY> Vectorizing documents
+TMPY> Creating query vector
+TMPY> Tokenizing documents
+TMPY> Removing stopwords
+TMPY> Stemming tokens
+TMPY> Vectorizing documents
+TMPY> Compute query-doc similarity
+k=10 docsids ...
+[7547, 1603, 6500, 7360, 147, 8657, 1861, 8490, 2349, 2554]
+end q2()
+
+
+3)
+Please see attached Python project. 
+
+Output is:
+
+begin q3()
+TMPY> Creating document vectors
+TMPY> Tokenizing documents
+TMPY> Removing stopwords
+TMPY> Stemming tokens
+TMPY> Generating dictionary
+TMPY> Vectorizing documents
+k-means clustering with k=10 ...
+TMPY> Clustering document vectors
+Initialization complete
+Iteration  0, inertia 1688316.000
+Iteration  1, inertia 1491193.033
+Iteration  2, inertia 1467038.233
+Iteration  3, inertia 1458211.890
+Iteration  4, inertia 1454785.088
+Iteration  5, inertia 1453000.912
+Iteration  6, inertia 1452010.748
+Iteration  7, inertia 1451249.365
+Iteration  8, inertia 1450559.734
+Iteration  9, inertia 1449887.891
+Iteration 10, inertia 1448846.193
+Iteration 11, inertia 1447794.345
+Iteration 12, inertia 1446632.291
+Iteration 13, inertia 1445452.012
+Iteration 14, inertia 1444943.970
+Iteration 15, inertia 1444655.444
+Iteration 16, inertia 1444432.337
+Iteration 17, inertia 1444274.001
+Iteration 18, inertia 1444209.744
+Iteration 19, inertia 1444168.834
+Iteration 20, inertia 1444148.220
+Iteration 21, inertia 1444125.747
+Iteration 22, inertia 1444039.804
+Iteration 23, inertia 1443979.784
+Iteration 24, inertia 1443903.458
+Iteration 25, inertia 1443880.038
+Iteration 26, inertia 1443859.714
+Iteration 27, inertia 1443826.807
+Iteration 28, inertia 1443812.429
+Iteration 29, inertia 1443784.278
+Iteration 30, inertia 1443773.274
+Iteration 31, inertia 1443762.711
+Iteration 32, inertia 1443755.370
+Iteration 33, inertia 1443752.414
+Iteration 34, inertia 1443748.975
+Iteration 35, inertia 1443742.819
+Iteration 36, inertia 1443738.217
+Iteration 37, inertia 1443733.530
+Iteration 38, inertia 1443722.986
+Iteration 39, inertia 1443709.142
+Iteration 40, inertia 1443695.314
+Iteration 41, inertia 1443685.762
+Iteration 42, inertia 1443673.769
+Iteration 43, inertia 1443654.789
+Iteration 44, inertia 1443620.768
+Iteration 45, inertia 1443570.835
+Iteration 46, inertia 1443485.673
+Iteration 47, inertia 1443372.525
+Iteration 48, inertia 1443279.943
+Iteration 49, inertia 1443160.816
+Iteration 50, inertia 1443071.112
+Iteration 51, inertia 1442978.682
+Iteration 52, inertia 1442904.716
+Iteration 53, inertia 1442827.491
+Iteration 54, inertia 1442779.053
+Iteration 55, inertia 1442754.328
+Iteration 56, inertia 1442746.426
+Iteration 57, inertia 1442745.219
+Iteration 58, inertia 1442745.136
+Iteration 59, inertia 1442744.860
+Converged at iteration 59
+silhouette coefficient for k=10 is: -0.00559884027224
+k-means clustering with k=20 ...
+TMPY> Clustering document vectors
+Initialization complete
+Iteration  0, inertia 1644408.000
+Iteration  1, inertia 1445817.549
+Iteration  2, inertia 1421954.360
+Iteration  3, inertia 1410007.922
+Iteration  4, inertia 1400523.969
+Iteration  5, inertia 1394250.036
+Iteration  6, inertia 1390866.818
+Iteration  7, inertia 1388754.528
+Iteration  8, inertia 1387526.757
+Iteration  9, inertia 1386864.752
+Iteration 10, inertia 1386199.182
+Iteration 11, inertia 1385359.699
+Iteration 12, inertia 1384162.294
+Iteration 13, inertia 1382862.177
+Iteration 14, inertia 1381664.648
+Iteration 15, inertia 1380793.290
+Iteration 16, inertia 1380128.581
+Iteration 17, inertia 1379803.860
+Iteration 18, inertia 1379618.031
+Iteration 19, inertia 1379457.857
+Iteration 20, inertia 1379253.549
+Iteration 21, inertia 1379092.499
+Iteration 22, inertia 1378890.432
+Iteration 23, inertia 1378636.987
+Iteration 24, inertia 1378375.473
+Iteration 25, inertia 1378205.697
+Iteration 26, inertia 1378106.008
+Iteration 27, inertia 1378054.946
+Iteration 28, inertia 1378005.760
+Iteration 29, inertia 1377966.967
+Iteration 30, inertia 1377942.839
+Iteration 31, inertia 1377919.164
+Iteration 32, inertia 1377875.190
+Iteration 33, inertia 1377780.571
+Iteration 34, inertia 1377652.914
+Iteration 35, inertia 1377619.860
+Iteration 36, inertia 1377521.593
+Iteration 37, inertia 1377370.974
+Iteration 38, inertia 1377206.906
+Iteration 39, inertia 1377036.937
+Iteration 40, inertia 1376806.669
+Iteration 41, inertia 1376558.794
+Iteration 42, inertia 1376253.529
+Iteration 43, inertia 1376137.328
+Iteration 44, inertia 1376097.683
+Iteration 45, inertia 1376071.170
+Iteration 46, inertia 1376039.148
+Iteration 47, inertia 1376014.951
+Iteration 48, inertia 1375983.194
+Iteration 49, inertia 1375978.476
+Iteration 50, inertia 1375977.590
+Iteration 51, inertia 1375977.320
+Iteration 52, inertia 1375977.240
+Converged at iteration 52
+/usr/local/lib/python2.7/site-packages/numpy/core/_methods.py:59: RuntimeWarning: Mean of empty slice.
+  warnings.warn("Mean of empty slice.", RuntimeWarning)
+/usr/local/lib/python2.7/site-packages/numpy/core/_methods.py:71: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+silhouette coefficient for k=20 is: -0.125317287584
+k-means clustering with k=30 ...
+TMPY> Clustering document vectors
+Initialization complete
+Iteration  0, inertia 1621651.000
+Iteration  1, inertia 1382923.106
+Iteration  2, inertia 1358796.139
+Iteration  3, inertia 1346955.784
+Iteration  4, inertia 1339424.779
+Iteration  5, inertia 1335559.179
+Iteration  6, inertia 1333265.527
+Iteration  7, inertia 1332150.397
+Iteration  8, inertia 1331454.318
+Iteration  9, inertia 1330881.676
+Iteration 10, inertia 1330448.453
+Iteration 11, inertia 1330029.076
+Iteration 12, inertia 1329725.113
+Iteration 13, inertia 1329678.052
+Iteration 14, inertia 1329644.598
+Iteration 15, inertia 1329628.455
+Iteration 16, inertia 1329588.101
+Iteration 17, inertia 1329557.660
+Iteration 18, inertia 1329546.195
+Iteration 19, inertia 1329541.820
+Iteration 20, inertia 1329538.780
+Iteration 21, inertia 1329535.660
+Iteration 22, inertia 1329533.757
+Iteration 23, inertia 1329532.297
+Iteration 24, inertia 1329530.878
+Iteration 25, inertia 1329528.972
+Iteration 26, inertia 1329522.212
+Iteration 27, inertia 1329510.947
+Iteration 28, inertia 1329509.640
+Iteration 29, inertia 1329507.876
+Iteration 30, inertia 1329506.036
+Iteration 31, inertia 1329506.017
+Iteration 32, inertia 1329506.008
+Converged at iteration 32
+silhouette coefficient for k=30 is: -0.0450005546273
+end q3()
+
+
+Given the higher silhouette coefficient of  k=10, this is the better model of the 3. 
+It took more iterations to converge however. 
+
+4) 
+NA
+
+5)
+k-means clustering is a special form of the EM algorithm where the E step uses a hard cluster assignment rule (uniquely assigned to a specific cluster), with a two-component Gaussian mixture model to determine cluster membership probability for the ith document. The M step uses the mean-vectos of the clusters. 
+
+6)
+The EM algorithm is statistically more flexible allowing for different Probability Distribution Functions to be used in the mixture model. 
+

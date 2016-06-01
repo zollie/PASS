@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Predictive Modeling\\Lesson 1\\\emph{k-NN}}
+\date{09/15/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+The RStudio project files and accompanying artifacts, including the tex file that created this PDF, are publicly available on GitHub
+\\
+\url{https://github.com/zollie/PASS-PredictiveModeling-knn}
+
+\section*{Data Setup}
+I took the Excel spreadsheet and saved it as a CSV for easy import into R
+<<>>=Partitioning Data into Train(60%) and Validation(40%)
+mowers <- read.csv("~/R/PASS/PredictiveModeling/knn/Mowers.csv")
+head(mowers)
+@
+There were some errant extra columns on the end so I cleaned these up
+<<>>=Partitioning Data into Train(60%) and Validation(40%)
+mowers$X <- NULL
+mowers$X.1 <- NULL
+@
+
+\section*{Partitioning}
+Next, partition the mowers data into 60\% Train and 40\% Test sets. I set the RNG seed for reproducibility
+<<>>=Partitioning Data into Train(60%) and Validation(40%)
+set.seed(21275)
+ind <- sample(2, nrow(mowers), replace=TRUE, prob=c(0.6, 0.4))
+train <- mowers[ind==1,]
+test <- mowers[ind==2,]
+head(train)
+head(test)
+@
+
+\section*{Visualization}
+To better understand the data, scatterplots were created.
+\subsection*{mowers scatterplot}
+<<>>=
+library(car)
+scatterplot(mowers[,2] ~ mowers[,3] | mowers[,4], 
+            data=mowers, smoother=FALSE, reg.line=FALSE, xlab="Income ($000s)", 
+            ylab="Lot Sz (000s sq ft)", main="Mowers Scatter Plot", 
+            legend.title="Owner/NonOwner")
+@
+\includegraphics[width=0.98\textwidth]{mowers-scatter.pdf}
+\subsection*{train scatterplot}
+<<>>=
+scatterplot(train[,2] ~ train[,3] | train[,4], 
+            data=train, smoother=FALSE, reg.line=FALSE, xlab="Income ($000s)", 
+            ylab="Lot Sz (000s sq ft)", main="Train Scatter Plot", 
+            legend.title="Owner/NonOwner")
+@
+\includegraphics[width=0.98\textwidth]{train-scatter.pdf}
+\subsection*{test scatterplot}
+<<>>=
+scatterplot(test[,2] ~ test[,3] | test[,4], 
+            data=test, smoother=FALSE, reg.line=FALSE, xlab="Income ($000s)", 
+            ylab="Lot Sz (000s sq ft)", main="Test Scatter Plot", 
+            legend.title="Owner/NonOwner")
+@
+\includegraphics[width=0.98\textwidth]{test-scatter.pdf}
+
+
+\section*{k-Nearest Neighbor}
+We need to reference the FNN library that contains the knn function
+<<>>=
+library(FNN)
+@
+\subsection*{Factoring the categories}
+We have to tell the \emph{knn} function what the real categories of the train data are
+<<>>=
+levels <- factor(train[,4], labels=c("Owner", "NonOwner"))
+levels
+@
+We also record the categories of the test data for determining classification error
+<<>>=
+testLevels <- factor(test[,4], labels=c("Owner", "NonOwner"))
+testLevels
+@
+
+\subsection*{k-NN for 1:nrow(train)}
+Below is a control loop to run knn() for k = \{1,2,3,4,5,6,7,8,9,10,11,12,13,14\}. 
+The last statement of each loop prints the classification error rate for the current value of k. This will be summarized when answering the lesson questions in the next section. 
+<<>>=
+n <- nrow(train)
+z <- nrow(test)
+knn.err <- numeric(z)
+for(k in 1:n) {
+    cat("\n\nPerforming k-NN with k=",k, sep="")
+    cat("\n", "------------------------------\n")
+    pred <- knn(train, test, cl=levels, k=k, prob=TRUE)
+    print(pred)
+    knn.err[k] <- mean(as.integer(factor(pred, 
+                                         levels=c("Owner", "NonOwner"), 
+                                         ordered=TRUE)) != as.integer(testLevels))
+    cat("Error Rate is ", knn.err[k])
+}
+@
+
+\section*{Lesson 1 Question and Answer}
+\subsection*1\emph{Try several different values of k, and report the classification error rate for each below.}
+<<>>=
+cbind("k"=1:n, "knn classification error"=knn.err, deparse.level=2)
+@
+
+\noindent
+Here is a plot of the same data
+<<>>=
+plot(knn.err, type="b", 
+     main="Classification error rate for different values of k", 
+     xlab="k", ylab="error rate")
+@
+\includegraphics[width=0.98\textwidth]{k-error-rate.pdf}
+
+\subsection*2\emph{What problems occur if you choose too small a value for k? Too large?}
+\newline
+\newline
+\noindent
+With a value for k too small we will classify in a way that is very sensitive to the local characteristcs of the training data.
+\newline
+\newline
+\noindent
+With a value of k too large we essentially overfit, ignoring the information contained in the predictor variables. In the extreme with k equal the number of observations in the train data all test data is assigned to the most frequent class in the train data, Owner in the present case. 
+
+\end{document}

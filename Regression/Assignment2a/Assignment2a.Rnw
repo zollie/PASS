@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 2a}
+\date{10/21/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 2a using R. 
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS-Regression-Assignment2a}
+
+\section*{Problem 3.1}
+<<>>=
+movs <- read.csv("~/R/PASS/Regression/Assignment2a/movies.csv")
+@
+
+\subsection*{a}
+$\hat{Y} = \hat{b}_0+\hat{b}_1X_1+\hat{b}_2X_2+\hat{b}_3X_3 = \hat{b}_0+\hat{b}_1Rate+\hat{b}_2User+b_3Meta$
+\\\\
+or
+\\\\
+$E(Box|(Rate,User,Meta)) =  \hat{b}_0+\hat{b}_1X_1+\hat{b}_2X_2+\hat{b}_3X_3 = \hat{b}_0+\hat{b}_1Rate+\hat{b}_2User+b_3Meta$
+\\\\
+\textit{*The are no page numbers in the e-book version of my text book}
+\subsection*{b}
+<<>>=
+model <- lm(Box ~ Rate + User + Meta, data=movs)
+summary(model)
+@
+$\hat{Y} = -169.0862+35.4962Rate+0.4328User+1.2462Meta$
+
+\subsection*{c}
+For every 1 point increase in user rating on IMDB for a given movie, holding everything else constant, this model predicts an increase in box office receipts of 35.49 million in inflation unadjusted US dollars. 
+
+\section*{Problem 3.3}
+
+\subsection*{a}
+<<>>=
+model2 <- lm(Box ~ Rate+User+Meta+Len+Win+Nom, data=movs)
+summary(model2)
+rss2 <- sum(model2$residuals^2)
+rss2
+@
+
+$RSS = 32435.31$
+
+\subsection*{b}
+<<>>=
+summary(model)
+rss <- sum(model$residuals^2)
+rss
+@
+$RSS = 32822.96$
+
+\subsection*{c}
+Global usefulness test
+\\\\
+\textit{FYI: I think the denominator degrees of freedom in the question hint are wrong given that k=3 and n=25 of the sample movies data}
+\\\\
+$TSS = \sum_{i=1}^{n}(Y_i - m_y)^2$
+\\
+$RSS = \sum_{i=1}^{n}(Y_i - \hat{Y_i})^2$tss
+\\
+Fstatistic$={(TSS-RSS)/k \over RSS/(n-k-1)}$
+\\\\
+$H_0=b_4=b_5=b_6=0$
+\\\\
+$H_a=b_4\neq0 \lor b_5\neq0 \lor b_6\neq0$
+\\\\
+significance level is 5\% $(1-.95 = .05)$ for upper tail test
+\\\\
+<<>>=
+options(scipen=999) # disable scientific notation
+model0 <- lm(Box ~ Len+Win+Nom, data=movs)
+summary(model0)
+n <- nrow(movs)
+k <- 3
+df2 <- n-k-1
+
+m_y0 <- mean(model0$fitted.values)
+tss0 <- sum(sapply(model0$fitted.values, function(v) { (v-m_y0)^2 }))
+rss0 <- sum(model0$residuals^2)
+fstat0 <- ((tss0-rss0)/k)/(rss0/(n-k-1))
+fstat0
+
+pf <- pf(fstat0, k, df2, lower.tail=F) 
+pf
+
+@
+pf < .05 therefore we reject $H_0$. It is plausible that $H_a=b_4\neq0 \lor b_5\neq0 \lor b_6\neq0$
+
+\subsection*{d}
+<<>>=
+summary(model)
+summary(model2)
+anova(model, model2)
+@
+
+The F-statistic of .0717 < 3.16 and the p-value of .9744 > .05 therefore we do not reject $H_0$. There appears to be strong evidence that $H_0 = b_4 = b_5 = b_6 = 0$ holds. 
+
+\subsection*{e}
+<<>>=
+summary(model)
+summary(model2)
+@
+
+For the reduced model $s=39.53, R^2=.8841, adjusted R^2=.8675$
+\\\\
+For the complete model $s=42.45, R^2=.8854, adjusted R^2=.8472$
+\\\\
+$s$ is lower for the reduced model corroborating the findings related to the extra predictors in the full model in \textit{c} and \textit{d}. $R^2$ is higher for the complete model but this appears mostly do to overfitting. Adjusted $R^2$ is lower for the complete model lending support to this view.  
+
+\end{document}

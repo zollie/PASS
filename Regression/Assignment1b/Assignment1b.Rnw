@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 1b}
+\date{10/14/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 1b using R. 
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS-Regression-Assignment1b}
+
+\section*{Problem 2.3}
+<<>>=
+elec <- read.csv("~/R/PASS/Regression/Assignment1b/electricity.csv")
+@
+
+\subsection*{a}
+GDP should be the predictor vairable with Electricity should be the response vairable. b\textsubscript{1} would be positive under the claim that electricity consumption increases in response to increases in GDP.
+
+\subsection*{b}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(elec$Gdp, elec$Elec)
+model <- lm(elec$Elec ~ elec$Gdp)
+lines(sort(elec$Gdp), fitted(model)[order(elec$Gdp)])
+@
+
+\noindent
+There is a clearly a positive relationship between GDP and electrictiy consumption in a country. There are 2 outliers skewing the results to the right, and perhaps overestimating the slope of the resultant regression line. This increases the standard error of the model. It also bunches the non-outlier data points toward the lower left of the model inhibiting interpretation of the model. 
+
+\subsection*{c}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+max2 <- order(elec$Gdp,decreasing=T)[1:2]
+elec2 <- elec[-max2,]
+plot(elec2$Gdp, elec2$Elec)
+model2 <- lm(elec2$Elec ~ elec2$Gdp)
+lines(sort(elec2$Gdp), fitted(model2)[order(elec2$Gdp)])
+@
+
+\noindent
+With the 2 outliers removed, the standard error is apprently decreased and the obersvations appear more tightly correlated about the regression line (taking into account the scale of the X/Y axes). 
+
+\subsection*{d}
+<<>>=
+options(scipen=999) # disable scientific notation
+summary(model2)
+@
+
+\subsubsection*{Hypotheis Test}
+\noindent
+$H_{0} = b_{1} = 0
+\\
+H_{a} = b_{1} > 0
+\\
+b_{1}\:t-stat=10.62
+\\
+b_{1}\:p-value=.00000000601  
+$ 
+
+\noindent
+\newline
+t-distribution upper tail signifigance level for 5\% (1-.05) confidence and 26 degrees of freedom = 1.706 
+
+\paragraph{Hypothesis Test Result}
+\noindent
+\\
+\\
+$b_{1}\:t-stat=10.62 > 1.706 \therefore reject\:H_{0}$
+\\
+\\
+alternatively
+\\
+\\
+$b_{1}\:p-value=.00000000601 < .005 \therefore reject\:H_{0}$
+\noindent
+\\\\
+An elec2\$Gdp slope of zero seems inplausible. The sample data favor a positive slope at 5\% confidence level. 
+
+\subsection*{e}
+\includegraphics[width=0.98\textwidth]{HighLow.pdf}
+
+\section*{2.5}
+<<>>=
+cars2 <- read.csv("~/R/PASS/Regression/Assignment1b/cars2.csv")
+@
+
+\subsection*{a}
+<<>>=
+cars2[["Cgphm"]] <- 100/cars2$Cmpg
+mean(cars2$Cgphm)
+@
+
+\subsection*{b}
+\subsubsection*{Regression using Eng as the predictor}
+<<>>=
+model_eng <- lm(Cgphm ~ Eng, data=cars2)
+summary(model_eng)
+@
+\subsubsection*{Regression using Vol as the predictor}
+<<>>=
+model_vol <- lm(Cgphm ~ Vol, data=cars2)
+summary(model_vol)
+@
+
+\subsubsection*{Residual standard error evaluation}
+For the linear regression model using Eng as the predictor $s=.3351$
+\\\\
+For the linear regression model using Vol as the predictor $s=.6382$
+\\\\
+$.3351 < .6382 \therefore  $ when considering s, the model using predictor Eng is preferable
+
+\subsubsection*{Coefficient of determination - R\textsuperscript{2}}
+For the linear regression model using Eng as the predictor $R^2=.7726$
+\\\\
+For the linear regression model using Vol as the predictor $R^2=.1755$
+\\\\
+$.7726 > .1755 \therefore  $ when considering $R^2$, the model using predictor Eng is preferable. Moreover, .1755 is significantly < 1, therefore the model using Vol as the predictor is highly questionable. 
+
+\subsubsection*{The p-value of $b_{1}$}
+For the linear regression model using Eng as the predictor the p-value of Eng =0.0000000000000002
+\\\\
+For the linear regression model using Vol as the predictor the p-value of Vol=0.0000009527
+\\\\
+$.0000000000000002 < .0000009527 \therefore  $ when considering the statistical significance of $b_{1}$, the model using predictor Eng is preferable. 
+
+\subsubsection*{Visual Interpretation}
+\paragraph*{Eng}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(cars2$Eng, cars2$Cgphm)
+lines(sort(cars2$Eng), fitted(model_eng)[order (cars2$Eng)])
+@
+\paragraph*{Vol}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(cars2$Vol, cars2$Cgphm)
+lines(sort(cars2$Vol), fitted(model_vol)[order (cars2$Vol)])
+@
+
+\subsection*{}
+Visually the plot of Eng is more tightly correlated around the regression line and the slope of the regression line exhibits more lift. Using Eng as the predictor is preferable over using Vol as the predicotr for this linear regression excercise. 
+
+\subsection*{c}
+Using Eng as the predictor for the cars2 data was reccomended. As shown above $s=.3351$ for this model. 
+
+\noindent
+\\
+It can be shown that approximately 95\% of the observed Y-values lie within approximately $\pm$ 2s, therefore it can be said that with 95\% confidence our future predictions of Y using this linear regression model will fall within $\pm 2s$. That is, we have a 95\% confidence interval of $((X).8183 \pm .6702)$ given an observation of Eng=X.  
+
+\end{document}

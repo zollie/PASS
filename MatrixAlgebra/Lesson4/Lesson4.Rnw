@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\author{Kevin Zollicoffer}
+\title{Matrix Algebra\\Lesson 4}
+\date{12/02/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Problem 4.1}
+\subsection*{a}
+$ det(A) = 5$
+
+\subsection*{b}
+$  
+\begin{bmatrix}
+  5 & 1
+\end{bmatrix}
+$
+
+\subsection*{c}
+$\lambda_1\lambda_2 = det(A)$
+
+\subsection*{d}
+$p.d$
+
+\subsection*{e}
+$  
+\begin{bmatrix}
+  .7071 & -.7071 \\
+  .7071 & .7071 \\
+\end{bmatrix}
+$
+
+\subsection*{f}
+$A = 5   
+\begin{bmatrix}
+  .7071 \\
+  .7071
+\end{bmatrix}
+\begin{bmatrix}
+  .7071 & .7071
+\end{bmatrix}
++
+1
+\begin{bmatrix}
+  -.7071 \\
+  .7071
+\end{bmatrix}
+\begin{bmatrix}
+  -.7071 & .7071
+\end{bmatrix}
+$
+
+\section*{Problem 4.2}
+\subsection*{a}
+$p.d$
+
+\subsection*{b}
+$A = 1.4
+\begin{bmatrix}
+  .57735 \\
+  .57735 \\
+  .57735
+\end{bmatrix}
+\begin{bmatrix}
+  .57735 & .57735 & .57735
+\end{bmatrix}
++.8
+\begin{bmatrix}
+  .66057 \\
+  .08532 \\
+  -.74590
+\end{bmatrix}
+\begin{bmatrix}
+  .66057 & .08532 & -.74590
+\end{bmatrix}
++.8
+\begin{bmatrix}
+  .47991 \\
+  -.81203 \\
+  .33212
+\end{bmatrix}
+\begin{bmatrix}
+  .47991 & -.81203 & .33212
+\end{bmatrix}
+$
+
+\end{document}

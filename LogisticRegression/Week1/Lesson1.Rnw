@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{alltt}
+\usepackage{verbatim}
+
+\author{Kevin Zollicoffer}
+\title{Logistic Regression\\Assignment 1}
+\date{06/22/2014}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Question 1}
+$ log(\frac{\mu}{1-\mu})$
+
+%\subsection*{b}
+\section*{Question 2}
+The Gaussian link function is an identity function, $g(\mu)$, where g maps it's input back to the same input. The Gaussian link function can handle negative numbers. It's distrbution is Normal, or Gaussian. ~\\ 
+
+In the logit case, a natural log can not be negative (neither can $\frac{\mu}{1-\mu}$). It has a a Binomial distribution. ~\\
+
+\section*{Question 3}
+$(82/157) / (431/825) = 1.00$
+
+\section*{Question 4}
+$xb_{white} = .25268$ ~\\
+$xb_{los} = -.02998$ ~\\
+$xb_{con} = -.59868$ ~\\
+
+$odds = (xb_{white})(0)+(xb_{con})+(xb_{los})(10)+(xb_{con})$ ~\\
+$odds = (.25268)(0)+(-.59868)+(-.02998)(10)+(-.59868)$ ~\\
+$odds = (-.59868)+(-0.89848)$ ~\\
+$odds = -1.49716$ ~\\
+
+$p = 1/(1+exp(-xb))$ ~\\
+$p = 1/(1+exp(1.49716))$ ~\\
+$p = 1/(1+4.468979)$ ~\\
+$p = 1/5.468979$ ~\\
+$p = .18$ ~\\
+
+
+\section*{Question 5}
+
+$a3 = sqrt(1.59199)$ ~\\
+$a3 = 1.26$ ~\\
+
+\section*{Question 6}
+
+$CI_{95} = \beta+/-1.96*SE(\beta)$ ~\\
+$CI_{95l} = -3.344039-1.96*1.26$ ~\\
+$CI_{95l} = -5.81$ ~\\
+
+$CI_{95u} = -3.344039+1.96*1.26$ ~\\
+$CI_{95u} = -.87$ ~\\
+
+$CI_{95} = [-5.81:-.87]$ ~\\
+
+\section*{Question 7}
+Yes, because the interval does not cross $0$. ~\\
+
+\section*{Question 8}
+
+$odds_f = exp(-2.31*0 + 1.00436) = exp(1.00436) = 2.73$ ~\\
+
+\section*{Question 9}
+Let $\mu$ be the probability of success of some event $y$ ~\\
+
+$\mu = Pr(y==1)$~
+
+The liklihood or odds of this event occuring is the ratio of success to failure, or ~\\
+
+$ (\frac{\mu}{1-\mu})$
+
+\section*{Question 10}
+Given a matrix of form ~\\
+
+$ m = 
+\begin{bmatrix}
+  A & B \\
+  C & D
+\end{bmatrix},
+$ ~\\
+
+$odds = \frac{AD}{BC}$ ~\\
+
+$risk = \frac{AD + CD}{BC + CD}$ ~\\
+
+The table as given in the question is: ~\\
+
+$ m = 
+\begin{bmatrix}
+  4 & 8 \\
+  3 & 5
+\end{bmatrix}
+$ ~\\
+
+However the odds and risk ratios for $x$, not $y$ were asked for so we transpose this matrix ~\\
+
+$m^{T} = 
+\begin{bmatrix}
+  4 & 3 \\
+  8 & 5
+\end{bmatrix}
+$ ~\\
+
+Therefore ~\\
+
+$odds = \frac{4*5}{8*3} = \frac{20}{24} = .83 $ ~\\
+
+$risk = \frac{4*5+8*5}{3*8+3*5} = \frac{60}{39} = 1.54 $ ~\\
+
+\end{document}

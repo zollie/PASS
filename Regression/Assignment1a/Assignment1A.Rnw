@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 1a}
+\date{10/14/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 1a using R. 
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS-Regression-Assignment1a}
+
+\section*{Problem 1.1}
+<<>>=
+  nbas <- read.csv("~/R/PASS/Regression/Assignment1a/nbasalary.csv")
+@
+
+\subsection*{a}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+hist(nbas$Salary, freq=TRUE)
+@
+
+\subsection*{b}
+A bell curve like that of the standard normal distribution
+
+\subsection*{c}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+qqnorm(nbas$Salary)
+qqline(nbas$Salary)
+@
+
+\subsection*{d}
+The QQ plot would be clustered around the reference line added by qqline()
+
+\subsection*{e}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+Logsal <- log(nbas$Salary)
+hist(Logsal, freq=TRUE)
+@
+
+\subsection*{f}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+qqnorm(Logsal)
+qqline(Logsal)
+@
+
+\subsection*{g}
+Logsal more closely follows a normal curve. The histogram of Logsal resembles the standard normal distribution more than the histogram of nbas\$Salaries. Likewise, the QQ-plot of Logsal clusters around the normal reference line to a greater degree than that of the qqplot of nbas\$Salaries. 
+
+\section*{Problem 1.5}
+<<>>=
+  c <- read.csv("~/R/PASS/Regression/Assignment1a/countries.csv")
+@
+
+\subsection*{a}
+<<>>=
+  summary(c$Pop)
+  mean(c$Pop)
+  sd(c$Pop)
+@
+
+\subsection*{b}
+The world population among countries is highly variable about the mean as exhibited by a mean of 111.5 and a standard deviation of 237.2. That is c\$Pop is not normally distributed but highly skewed. Therefore the confidence intervals for the mean of c\$Pop would be relatively large and weakly informative. 
+
+\subsection*{c}
+<<>>=
+nrow(c)
+mean(c$Life)
+sd(c$Life)
+
+t.test(c$Life, conf.level=.95)
+@
+
+\section*{Problem 1.7}
+\subsection*{a}
+<<>>=
+t.test(c$Life, mu=68, alternative="less")
+@
+p-value > .05 therefore we do not reject the null hypothesis. The journalist may be correct in this scenario.
+
+\subsection*{b}
+The prediction intervals below are larger than the confidence intervals from problem 1.5c because when calculating a confidence interval the only error we have to worry about is the estimation error. However, when calculating a prediction interval we must account for the estimation error and random error. 
+
+\subsubsection*{Manually}
+<<>>=
+f <- function(d, conf) {
+  lwr <- mean(c$Life) - conf*sd(c$Life)*sqrt(1+1/length(c$Life))
+  upr <- mean(c$Life) + conf*sd(c$Life)*sqrt(1+1/length(c$Life))
+  c(lwr,upr)
+}
+f(c$Life, 2.005)
+@
+
+\subsubsection*{Regression Trick}
+<<>>=
+ones <- rep(1, 55)
+model <- lm(c$Life ~ ones)
+predict(model, interval="prediction")
+@
+
+\end{document}

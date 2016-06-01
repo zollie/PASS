@@ -1,0 +1,81 @@
+Warning: /usr/lib/hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: $HADOOP_HOME is deprecated.
+
+14/06/15 12:37:25 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+14/06/15 12:37:25 INFO tool.CodeGenTool: Beginning code generation
+14/06/15 12:37:25 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `wikistats` AS t LIMIT 1
+14/06/15 12:37:25 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `wikistats` AS t LIMIT 1
+14/06/15 12:37:25 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /srv/hadoop
+Note: /tmp/sqoop-analyst/compile/ffeab13fa8484a0af65f85bdc0bd46a1/wikistats.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+14/06/15 12:37:27 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-analyst/compile/ffeab13fa8484a0af65f85bdc0bd46a1/wikistats.jar
+14/06/15 12:37:27 WARN manager.MySQLManager: It looks like you are importing from mysql.
+14/06/15 12:37:27 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+14/06/15 12:37:27 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+14/06/15 12:37:27 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+14/06/15 12:37:27 INFO mapreduce.ImportJobBase: Beginning import of wikistats
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:zookeeper.version=3.4.5-1392090, built on 09/30/2012 17:52 GMT
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:host.name=ubuntu
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.version=1.7.0_25
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.vendor=Oracle Corporation
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.home=/usr/lib/jvm/java-7-openjdk-amd64/jre
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.class.path=/srv/hadoop-1.2.1/libexec/../conf:/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar:/srv/hadoop-1.2.1/libexec/..:/srv/hadoop-1.2.1/libexec/../hadoop-core-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/asm-3.2.jar:/srv/hadoop-1.2.1/libexec/../lib/aspectjrt-1.6.11.jar:/srv/hadoop-1.2.1/libexec/../lib/aspectjtools-1.6.11.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-beanutils-1.7.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-beanutils-core-1.8.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-cli-1.2.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-codec-1.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-collections-3.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-configuration-1.6.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-daemon-1.0.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-digester-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-el-1.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-httpclient-3.0.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-io-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-lang-2.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-logging-1.1.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-logging-api-1.0.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-math-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-net-3.1.jar:/srv/hadoop-1.2.1/libexec/../lib/core-3.1.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-capacity-scheduler-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-fairscheduler-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-thriftfs-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hsqldb-1.8.0.10.jar:/srv/hadoop-1.2.1/libexec/../lib/jackson-core-asl-1.8.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jackson-mapper-asl-1.8.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jasper-compiler-5.5.12.jar:/srv/hadoop-1.2.1/libexec/../lib/jasper-runtime-5.5.12.jar:/srv/hadoop-1.2.1/libexec/../lib/jdeb-0.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-core-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-json-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-server-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jets3t-0.6.1.jar:/srv/hadoop-1.2.1/libexec/../lib/jetty-6.1.26.jar:/srv/hadoop-1.2.1/libexec/../lib/jetty-util-6.1.26.jar:/srv/hadoop-1.2.1/libexec/../lib/jsch-0.1.42.jar:/srv/hadoop-1.2.1/libexec/../lib/junit-4.5.jar:/srv/hadoop-1.2.1/libexec/../lib/kfs-0.2.2.jar:/srv/hadoop-1.2.1/libexec/../lib/log4j-1.2.15.jar:/srv/hadoop-1.2.1/libexec/../lib/mockito-all-1.8.5.jar:/srv/hadoop-1.2.1/libexec/../lib/oro-2.0.8.jar:/srv/hadoop-1.2.1/libexec/../lib/servlet-api-2.5-20081211.jar:/srv/hadoop-1.2.1/libexec/../lib/slf4j-api-1.4.3.jar:/srv/hadoop-1.2.1/libexec/../lib/slf4j-log4j12-1.4.3.jar:/srv/hadoop-1.2.1/libexec/../lib/xmlenc-0.52.jar:/srv/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-api-2.1.jar:/srv/sqoop/conf::/srv/sqoop/lib/ant-contrib-1.0b3.jar:/srv/sqoop/lib/ant-eclipse-1.0-jvm1.2.jar:/srv/sqoop/lib/avro-1.5.3.jar:/srv/sqoop/lib/avro-ipc-1.5.3.jar:/srv/sqoop/lib/avro-mapred-1.5.3.jar:/srv/sqoop/lib/commons-io-1.4.jar:/srv/sqoop/lib/hsqldb-1.8.0.10.jar:/srv/sqoop/lib/jackson-core-asl-1.7.3.jar:/srv/sqoop/lib/jackson-mapper-asl-1.7.3.jar:/srv/sqoop/lib/jopt-simple-3.2.jar:/srv/sqoop/lib/mysql-connector-java-5.1.30-bin.jar:/srv/sqoop/lib/paranamer-2.3.jar:/srv/sqoop/lib/snappy-java-1.0.3.2.jar:/srv/hbase/conf:/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar:/srv/hbase:/srv/hbase/hbase-0.94.19.jar:/srv/hbase/hbase-0.94.19-tests.jar:/srv/hbase/lib/activation-1.1.jar:/srv/hbase/lib/asm-3.1.jar:/srv/hbase/lib/avro-1.5.3.jar:/srv/hbase/lib/avro-ipc-1.5.3.jar:/srv/hbase/lib/commons-beanutils-1.7.0.jar:/srv/hbase/lib/commons-beanutils-core-1.8.0.jar:/srv/hbase/lib/commons-cli-1.2.jar:/srv/hbase/lib/commons-codec-1.4.jar:/srv/hbase/lib/commons-collections-3.2.1.jar:/srv/hbase/lib/commons-configuration-1.6.jar:/srv/hbase/lib/commons-digester-1.8.jar:/srv/hbase/lib/commons-el-1.0.jar:/srv/hbase/lib/commons-httpclient-3.1.jar:/srv/hbase/lib/commons-io-2.1.jar:/srv/hbase/lib/commons-lang-2.5.jar:/srv/hbase/lib/commons-logging-1.1.1.jar:/srv/hbase/lib/commons-math-2.1.jar:/srv/hbase/lib/commons-net-1.4.1.jar:/srv/hbase/lib/core-3.1.1.jar:/srv/hbase/lib/guava-11.0.2.jar:/srv/hbase/lib/hadoop-core-1.0.4.jar:/srv/hbase/lib/hamcrest-core-1.3.jar:/srv/hbase/lib/high-scale-lib-1.1.1.jar:/srv/hbase/lib/httpclient-4.1.2.jar:/srv/hbase/lib/httpcore-4.1.3.jar:/srv/hbase/lib/jackson-core-asl-1.8.8.jar:/srv/hbase/lib/jackson-jaxrs-1.8.8.jar:/srv/hbase/lib/jackson-mapper-asl-1.8.8.jar:/srv/hbase/lib/jackson-xc-1.8.8.jar:/srv/hbase/lib/jamon-runtime-2.3.1.jar:/srv/hbase/lib/jasper-compiler-5.5.23.jar:/srv/hbase/lib/jasper-runtime-5.5.23.jar:/srv/hbase/lib/jaxb-api-2.1.jar:/srv/hbase/lib/jaxb-impl-2.2.3-1.jar:/srv/hbase/lib/jersey-core-1.8.jar:/srv/hbase/lib/jersey-json-1.8.jar:/srv/hbase/lib/jersey-server-1.8.jar:/srv/hbase/lib/jettison-1.1.jar:/srv/hbase/lib/jetty-6.1.26.jar:/srv/hbase/lib/jetty-util-6.1.26.jar:/srv/hbase/lib/jruby-complete-1.6.5.jar:/srv/hbase/lib/jsp-2.1-6.1.14.jar:/srv/hbase/lib/jsp-api-2.1-6.1.14.jar:/srv/hbase/lib/jsr305-1.3.9.jar:/srv/hbase/lib/junit-4.11.jar:/srv/hbase/lib/libthrift-0.8.0.jar:/srv/hbase/lib/log4j-1.2.16.jar:/srv/hbase/lib/metrics-core-2.1.2.jar:/srv/hbase/lib/netty-3.2.4.Final.jar:/srv/hbase/lib/protobuf-java-2.4.0a.jar:/srv/hbase/lib/servlet-api-2.5-6.1.14.jar:/srv/hbase/lib/slf4j-api-1.4.3.jar:/srv/hbase/lib/slf4j-log4j12-1.4.3.jar:/srv/hbase/lib/snappy-java-1.0.3.2.jar:/srv/hbase/lib/stax-api-1.0.1.jar:/srv/hbase/lib/velocity-1.7.jar:/srv/hbase/lib/xmlenc-0.52.jar:/srv/hbase/lib/zookeeper-3.4.5.jar:/srv/hadoop-1.2.1/libexec/../conf:/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar:/srv/hadoop-1.2.1/libexec/..:/srv/hadoop-1.2.1/libexec/../hadoop-core-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/asm-3.2.jar:/srv/hadoop-1.2.1/libexec/../lib/aspectjrt-1.6.11.jar:/srv/hadoop-1.2.1/libexec/../lib/aspectjtools-1.6.11.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-beanutils-1.7.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-beanutils-core-1.8.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-cli-1.2.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-codec-1.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-collections-3.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-configuration-1.6.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-daemon-1.0.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-digester-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-el-1.0.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-httpclient-3.0.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-io-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-lang-2.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-logging-1.1.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-logging-api-1.0.4.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-math-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/commons-net-3.1.jar:/srv/hadoop-1.2.1/libexec/../lib/core-3.1.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-capacity-scheduler-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-fairscheduler-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hadoop-thriftfs-1.2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/hsqldb-1.8.0.10.jar:/srv/hadoop-1.2.1/libexec/../lib/jackson-core-asl-1.8.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jackson-mapper-asl-1.8.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jasper-compiler-5.5.12.jar:/srv/hadoop-1.2.1/libexec/../lib/jasper-runtime-5.5.12.jar:/srv/hadoop-1.2.1/libexec/../lib/jdeb-0.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-core-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-json-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jersey-server-1.8.jar:/srv/hadoop-1.2.1/libexec/../lib/jets3t-0.6.1.jar:/srv/hadoop-1.2.1/libexec/../lib/jetty-6.1.26.jar:/srv/hadoop-1.2.1/libexec/../lib/jetty-util-6.1.26.jar:/srv/hadoop-1.2.1/libexec/../lib/jsch-0.1.42.jar:/srv/hadoop-1.2.1/libexec/../lib/junit-4.5.jar:/srv/hadoop-1.2.1/libexec/../lib/kfs-0.2.2.jar:/srv/hadoop-1.2.1/libexec/../lib/log4j-1.2.15.jar:/srv/hadoop-1.2.1/libexec/../lib/mockito-all-1.8.5.jar:/srv/hadoop-1.2.1/libexec/../lib/oro-2.0.8.jar:/srv/hadoop-1.2.1/libexec/../lib/servlet-api-2.5-20081211.jar:/srv/hadoop-1.2.1/libexec/../lib/slf4j-api-1.4.3.jar:/srv/hadoop-1.2.1/libexec/../lib/slf4j-log4j12-1.4.3.jar:/srv/hadoop-1.2.1/libexec/../lib/xmlenc-0.52.jar:/srv/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-2.1.jar:/srv/hadoop-1.2.1/libexec/../lib/jsp-2.1/jsp-api-2.1.jar:/srv/sqoop/sqoop-1.4.4.jar:/srv/sqoop/sqoop-test-1.4.4.jar:
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.library.path=/srv/hadoop-1.2.1/libexec/../lib/native/Linux-amd64-64
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.io.tmpdir=/tmp
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:java.compiler=<NA>
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:os.name=Linux
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:os.arch=amd64
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:os.version=3.8.0-29-generic
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:user.name=analyst
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:user.home=/home/analyst
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Client environment:user.dir=/home/analyst
+14/06/15 12:37:27 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=localhost:2181 sessionTimeout=180000 watcher=hconnection
+14/06/15 12:37:27 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 3566@ubuntu
+14/06/15 12:37:27 INFO zookeeper.ClientCnxn: Opening socket connection to server localhost/127.0.0.1:2181. Will not attempt to authenticate using SASL (unknown error)
+14/06/15 12:37:27 INFO zookeeper.ClientCnxn: Socket connection established to localhost/127.0.0.1:2181, initiating session
+14/06/15 12:37:27 INFO zookeeper.ClientCnxn: Session establishment complete on server localhost/127.0.0.1:2181, sessionid = 0x146a1066f810008, negotiated timeout = 180000
+14/06/15 12:37:28 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=localhost:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@656ebb9
+14/06/15 12:37:28 INFO zookeeper.ClientCnxn: Opening socket connection to server localhost/127.0.0.1:2181. Will not attempt to authenticate using SASL (unknown error)
+14/06/15 12:37:28 INFO zookeeper.ClientCnxn: Socket connection established to localhost/127.0.0.1:2181, initiating session
+14/06/15 12:37:28 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 3566@ubuntu
+14/06/15 12:37:28 INFO zookeeper.ClientCnxn: Session establishment complete on server localhost/127.0.0.1:2181, sessionid = 0x146a1066f810009, negotiated timeout = 180000
+14/06/15 12:37:28 INFO zookeeper.ZooKeeper: Session: 0x146a1066f810009 closed
+14/06/15 12:37:28 INFO mapreduce.HBaseImportJob: Creating missing HBase table wikistats
+14/06/15 12:37:28 INFO zookeeper.ClientCnxn: EventThread shut down
+14/06/15 12:37:29 INFO zookeeper.ZooKeeper: Initiating client connection, connectString=localhost:2181 sessionTimeout=180000 watcher=catalogtracker-on-org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@656ebb9
+14/06/15 12:37:29 INFO zookeeper.ClientCnxn: Opening socket connection to server localhost/127.0.0.1:2181. Will not attempt to authenticate using SASL (unknown error)
+14/06/15 12:37:29 INFO zookeeper.ClientCnxn: Socket connection established to localhost/127.0.0.1:2181, initiating session
+14/06/15 12:37:29 INFO zookeeper.RecoverableZooKeeper: The identifier of this process is 3566@ubuntu
+14/06/15 12:37:29 INFO zookeeper.ClientCnxn: Session establishment complete on server localhost/127.0.0.1:2181, sessionid = 0x146a1066f81000a, negotiated timeout = 180000
+14/06/15 12:37:29 INFO zookeeper.ZooKeeper: Session: 0x146a1066f81000a closed
+14/06/15 12:37:29 INFO zookeeper.ClientCnxn: EventThread shut down
+14/06/15 12:37:31 INFO mapred.JobClient: Running job: job_201406151234_0001
+14/06/15 12:37:32 INFO mapred.JobClient:  map 0% reduce 0%
+14/06/15 12:38:14 INFO mapred.JobClient:  map 100% reduce 0%
+14/06/15 12:38:16 INFO mapred.JobClient: Job complete: job_201406151234_0001
+14/06/15 12:38:16 INFO mapred.JobClient: Counters: 17
+14/06/15 12:38:16 INFO mapred.JobClient:   Job Counters 
+14/06/15 12:38:16 INFO mapred.JobClient:     SLOTS_MILLIS_MAPS=39418
+14/06/15 12:38:16 INFO mapred.JobClient:     Total time spent by all reduces waiting after reserving slots (ms)=0
+14/06/15 12:38:16 INFO mapred.JobClient:     Total time spent by all maps waiting after reserving slots (ms)=0
+14/06/15 12:38:16 INFO mapred.JobClient:     Launched map tasks=1
+14/06/15 12:38:16 INFO mapred.JobClient:     SLOTS_MILLIS_REDUCES=0
+14/06/15 12:38:16 INFO mapred.JobClient:   File Output Format Counters 
+14/06/15 12:38:16 INFO mapred.JobClient:     Bytes Written=0
+14/06/15 12:38:16 INFO mapred.JobClient:   FileSystemCounters
+14/06/15 12:38:16 INFO mapred.JobClient:     HDFS_BYTES_READ=87
+14/06/15 12:38:16 INFO mapred.JobClient:     FILE_BYTES_WRITTEN=89899
+14/06/15 12:38:16 INFO mapred.JobClient:   File Input Format Counters 
+14/06/15 12:38:16 INFO mapred.JobClient:     Bytes Read=0
+14/06/15 12:38:16 INFO mapred.JobClient:   Map-Reduce Framework
+14/06/15 12:38:16 INFO mapred.JobClient:     Map input records=858131
+14/06/15 12:38:16 INFO mapred.JobClient:     Physical memory (bytes) snapshot=76746752
+14/06/15 12:38:16 INFO mapred.JobClient:     Spilled Records=0
+14/06/15 12:38:16 INFO mapred.JobClient:     CPU time spent (ms)=10110
+14/06/15 12:38:16 INFO mapred.JobClient:     Total committed heap usage (bytes)=16494592
+14/06/15 12:38:16 INFO mapred.JobClient:     Virtual memory (bytes) snapshot=1086156800
+14/06/15 12:38:16 INFO mapred.JobClient:     Map output records=858131
+14/06/15 12:38:16 INFO mapred.JobClient:     SPLIT_RAW_BYTES=87
+14/06/15 12:38:16 INFO mapreduce.ImportJobBase: Transferred 0 bytes in 46.532 seconds (0 bytes/sec)
+14/06/15 12:38:16 INFO mapreduce.ImportJobBase: Retrieved 858131 records.

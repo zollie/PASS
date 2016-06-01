@@ -1,0 +1,115 @@
+Exercises for Week Two: Working with Hadoop
+
+===========================================
+
+
+
+Grading for all questions is as follows:
+
+
+
+* 5 points: Discussion prompt
+* 5 points: correct implementation and application of mapper
+
+* 5 points: correct implementation and application of reducer
+
+* 5 points: correct computational results
+
+
+
+
+Discussion prompt (5 points)
+
+========================
+
+
+
+Please post your answer to the discussion question below to the forum. The discussion questions are designed to spark debate, comments, and conversation- please check the forum regularly for updates and respond to your classmates! 
+
+What are some potential pitfalls from performing analysis with the MapReduce functional paradigm? How could poor data flow affect the performance at each stage of the MapReduce implementation? What about other computational resource constraints?
+
+
+
+For both questions below, write a MapReduce job in any programming language you
+ choose. If you write it in Java, compile the JAR and send the job to the 
+cluster. 
+
+If you write it in a different language, leverage Hadoop Streaming
+ to execute the job on HDFS. Please submit both the source code for your 
+mappers and reducers, as well as the output from the job, which you can
+ fetch from the cluster by using `hadoop fs -getmerge`.
+
+
+
+
+Question One (15 points)
+
+========================
+
+
+
+In assignment one you performed a computation that computed the number of ts per calendar month from an apache log file. Apache web log records 
+are formatted in Common Log format:
+
+    
+
+	local - - [24/Oct/1994:13:47:19 -0600] "GET index.html HTTP/1.0" 200 150
+
+
+
+Please see assignment one for more details about the structure of log
+ records and information about the data set.
+
+
+
+For this assignment, determine the most popular hours of traffic for both 
+local and remote traffic. Your final output should report the hour twice 
+for each origination type with the number of hits associated with.
+
+
+
+In order to accomplish this task write a single Mapper function that
+ outputs the key (hour, origin) with the value 1 (to count the hit, similar 
+to counting hits on a per month basis). Then create a sum reducer that
+ totals the hits from the mapper.
+
+
+Question Two (15 points)
+
+========================
+
+
+
+Use the data set of airline on time performance from January 2013 to 
+complete question two. This data set was discussed in the lecture notes
+ and the details of the columnar structure can be found in the README from
+ the zip file.
+
+
+
+In the discussion, we computed the mean delay per origin airport by
+ inspecting the difference in arrival time at the destination airport with 
+the scheduled arrival time. In this exercise, let's compute the average 
+flights per day for each airport in the dataset.
+
+
+
+To do this, write a mapper that counts the number of flights per day by 
+outputing a key that is the airport and a value of one. Then
+ use the Average Reducer to sum the total flights and divide by the number 
+of days in January - 31. The reducer will output the airport key and the
+ computed mean.
+
+
+
+A note on the data set:
+
+
+
+This data set is  from: http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time
+
+
+
+It contains flight information for U.S. flights for the month of January
+2013, comprising of 509,519 rows of flight departure and arrival 
+performance with delays. It is 8.3 MB compressed and 60 MB uncompressed.

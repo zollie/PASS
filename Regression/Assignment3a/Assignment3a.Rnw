@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 3a}
+\date{10/28/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 3a using R
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS-Regression-Assignment3a}
+
+\section*{Problem 4.1}
+<<>>=
+nyj <- read.csv("~/R/PASS/Regression/Assignment3a/nyjuice.csv")
+nyj$DaySq <- nyj$Day**2
+attach(nyj)
+@
+\subsection*{a}
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(nyj$Day, nyj$Cases)
+model <- lm(Cases ~ Day + DaySq)
+newX <- seq(min(nyj$Day), max(nyj$Day), length=nrow(nyj))
+newXsq <- newX**2
+lines(newX, predict(model, newdata=data.frame(Day=newX, Xsq=newXsq)))
+@
+\subsection*{b}
+<<>>=
+model_simp <- lm(Cases ~ Day)
+summary(model_simp)
+@
+
+$\hat{Y}=2802.4+Day123$
+\subsection*{c}
+<<>>=
+summary(model)
+@
+
+$\hat{Y}=4944.221-Day183.029+DaySq7.463$
+
+\subsection*{c}
+$H_0: DaySq=0$
+\\
+$H_a: DaySq\neq0$
+\\\\
+The p-value for DaySq is 0.00172 < .05 therefore, we reject the $H_0$ as it appears there is statistical eveidence to support $H_a$
+
+\section*{Problem 4.3}
+The data are scatter plotted first for visual inspection. 
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+options(scipen=999)
+elec <- read.csv("~/R/PASS/Regression/Assignment3a/internet.csv")
+plot(elec$Gdp, elec$Int)
+@
+
+This data is highly skewed to the right. We drop the two extreme outliers from the data. 
+<<>>=
+max2 <- order(elec$Gdp,decreasing=T)[1:2]
+elec2 <- elec[-max2,]
+attach(elec2)
+@
+
+Next, 3 models are examaned.
+
+<<>>=
+model.A <- lm(Int ~ Gdp)
+summary(model.A)
+
+model.B <- lm(log(Int) ~ log(Gdp))
+summary(model.B)
+              
+elec2$Gdp_C <- elec2$Gdp**.5
+elec2$Int_C <- elec2$Int**.5
+model.C <- lm(Int_C ~ Gdp_C, data=elec2)
+summary(model.C)                     
+@
+
+The $log_e$ transformations had the lowest standard error, however the power transform had the highest $R^2$. A forth model was tried thart takes the power of .5 for the response, and the log of the predictor, Gdp
+
+<<>>=
+model.D <- lm(Int_C ~ log(Gdp), data=elec2)
+summary(model.D)
+@
+
+This model has the highest $R^2$, although it may be more troublesome to interpret.
+
+\subsection*{Conclusion}
+In this case I would choose model.B of the 4 evaluated due to it's ease of interpretation and relatively high $R^2$ and low standard error compared to the other 3 models. 
+
+\subsection*{Boxcox}
+I attempted touse boxcox, but was unsure how to interret it so left it out of the above. 
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+library(MASS)
+boxcox(model, plotit=TRUE)
+
+@
+
+\end{document}

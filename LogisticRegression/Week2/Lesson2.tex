@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{alltt}
+\usepackage{verbatim}
+
+\author{Kevin Zollicoffer}
+\title{Logistic Regression\\Assignment 2}
+\date{06/29/2014}
+
+% no indents
+\setlength\parindent{0pt}
+
+\usepackage{Sweave}
+\begin{document}
+\maketitle
+%\tableofcontents
+\input{Lesson2-concordance}
+
+\section*{Question 1}
+Only the logit can be used to estimate the odds ratio for the model predictors. The loglog does not output a probability. If it did one would be able to deduce odds ration. 
+
+%\subsection*{b}
+\section*{Question 2}
+If the Odds Ratio Confidence Interval of a predictor includes 1, it can be considered not significant. 
+
+\section*{Question 3}
+A person with kids has 2.35 greater odss of having an affair than a person without kids all other things constant. 
+
+\section*{Question 4}
+The odds of a very religious person having an affair are .27 times as great than that of an anti-religous person all other things constant. 
+
+
+\section*{Question 5}
+$1/.28 = 3.57$ ~\\
+
+A person who is very religous is 3.57 times as likely to not have an affair when compared to an anti-religous person all other things constant. 
+
+\section*{Question 6}
+$log(1.2409) = .22$
+
+\section*{Question 7}
+The Odds Ratio for \textit{kids} should stay similar or the same because the male predictor is not signifcant (it's confiden interval includes 1) . 
+
+\section*{Question 8}
+There is .1981 decrease in the log odds of having Kyphosis for every increase in the start value of vertebrae level for patients who underwent surgery in this study. 
+
+\section*{Question 9}
+It is the value of intercept when all predictors are held to 0.
+
+\section*{Question 10}
+$ odds_{x1} = 82/157 = .522293$ ~\\
+$ odds_{x0} = 431/825 = .5224242$ ~\\
+$ odds_{xb} = .522293/.5224242 = .9997489$ ~\\
+$ odds_{ln} = log(.9997489) =  -.0002511315$ ~\\
+
+\begin{Schunk}
+\begin{Sinput}
+> y <- c(0,0,1,1)
+> x <- c(0,1,0,1)
+> cnt <- c(825,157,431,82)
+> modl <- glm(y~x, weights=cnt, family=binomial)
+> summary(modl)
+\end{Sinput}
+\begin{Soutput}
+Call:
+glm(formula = y ~ x, family = binomial, weights = cnt)
+
+Deviance Residuals: 
+     1       2       3       4  
+-26.33  -11.49   30.36   13.25  
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -0.6492753  0.0594330 -10.924   <2e-16 ***
+x           -0.0002513  0.1486498  -0.002    0.999    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1922.9  on 3  degrees of freedom
+Residual deviance: 1922.9  on 2  degrees of freedom
+AIC: 1926.9
+
+Number of Fisher Scoring iterations: 4
+\end{Soutput}
+\end{Schunk}
+
+
+\end{document}

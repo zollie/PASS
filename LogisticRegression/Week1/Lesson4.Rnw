@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\author{Kevin Zollicoffer}
+\title{Logistic Regression\\Assignment 1}
+\date{06/22/2014}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Question 1}
+$ log(\frac{\mu}{1-\mu})$
+
+%\subsection*{b}
+\section*{Question 2}
+The Gaussian link function is an identity function, $g(\mu)$, where g maps it's input back to the same input. The Gaussian link function can therefore handle negative numbers. 
+\\\\
+The logit can linearize non-linear models. Logs are not defined for negative numbers so it follows the logit is not suitable for a model where $\frac{\mu}{1-\mu}$ can be negative.   
+
+\section*{Question 3}
+$(82/157) / (431/825) = 1.00$
+
+\section*{Question 4}
+
+
+\section*{Question 5}
+
+\section*{Question 6}
+
+\section*{Question 7}
+
+\section*{Question 8}
+
+$odds_f = exp(-2.31*0 + 1.00436) = exp(1.00436) = 2.73$
+
+\section*{Question 9}
+
+
+\section*{Question 10}
+\end{document}

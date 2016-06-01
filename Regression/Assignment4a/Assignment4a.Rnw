@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 4a}
+\date{11/04/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 4a using R
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS}
+
+\section*{Problem 5.1}
+<<>>=
+gpa <- read.csv("~/R/PASS/Regression/Assignment4a/collgpa.csv")
+@
+\subsection*{a}
+<<>>=
+model <- lm(Gpa ~ Verb+Math, data=gpa)
+summary(model)
+stu <- rstudent(model)
+@
+<<>>=
+plot(gpa$Verb, stu)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+
+scatter.smooth(gpa$Verb, stu, span=.75)
+@
+<<>>=
+plot(gpa$Math, stu)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+scatter.smooth(gpa$Math, stu, span=.75)
+@
+\\
+The zero mean assumption appears to be violated. Moreso by the verb residuals. 
+
+\subsection*b
+<<>>=
+modelb <- lm(Gpa ~ Verb+Math+Verb*Math+Verb**2+Math**2, data=gpa)
+summary(modelb)
+stub <- rstudent(modelb)
+levb <- hatvalues(modelb)
+cookb <- cooks.distance(modelb)
+mean(stub)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(modelb)
+@
+
+The resdiuals may have a mean near 0, but the distribution does not appear uniform (linear). There appears to be curviture in the data with fat tails on the ends. I'm not sure that this data does not violate the zero mean assumption?
+\subsection*c
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+hist(stub)
+@
+
+This data is left skewed and does not appear normally distributed about the mean. 
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+qqnorm(stub)
+qqline(stub)
+@
+
+The QQ-plot appears normal near the center of the data range but skewed $> +-$ Quantile 2. 
+
+\subsection*d
+Yes, observation 4 appears to be an outlier. This is based on (e) and (f) below. Please see below. 
+
+\subsection*e
+Observation 4 has the highest leverage. 
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(gpa$ID, levb)
+@
+
+\subsection*f
+Observation 4 has the highest cook distance. This observation is removed, and the model recalculated below. 
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(gpa$ID, cookb)
+@
+
+<<>>=
+gpa2 <- gpa[-4,]
+modelb2 <- lm(Gpa ~ Verb+Math+Verb*Math+Verb**2+Math**2, data=gpa2)
+summary(modelb2)
+stub2 <- rstudent(modelb2)
+levb2 <- hatvalues(modelb2)
+cookb2 <- cooks.distance(modelb2)
+mean(stub2)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(modelb2)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+hist(stub2)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(gpa2$ID, cookb2)
+@
+
+\section*{Problem 5.7}
+Below is the regression model developed for problem 5.7. It has an $R^2$ of .9472 and standard error of 10.05
+
+<<>>=
+rest <- read.csv("~/R/PASS/Regression/Assignment4a/restaurant.csv")
+rest$Region = factor(rest$Region)
+rest$DSw <- NULL
+rest$DNw <- NULL
+fit <- lm(Profit ~ Cov+Fco+Oco+Lco+Region+Cov*Fco*Lco*Region+Region*Lco*Oco, data=rest)
+summary(fit)
+@
+
+\end{document}

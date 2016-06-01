@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\author{Kevin Zollicoffer}
+\title{Data Mining in R\\Assigment 1}
+\date{01/19/2014}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Q.1}
+To provide an idea of the distribution of a variable. For checking the nomraility assumption. 
+
+\section*{Q.2}
+Plots variables against the theoritical quantiles of a normal distribution. A more precise way to check the nomrmailty assumption.  
+
+\section*{Q.3}
+The limits represent the 1st and 3rd quartiles of the variable
+
+\section*{Q.4}
+Grapical representations of a variable that depend on one or more discrete factors
+
+\section*{Q.5}
+Pros are it is easy. Cons are that you are eliminating possibly valuable information that may diminish the efficacy of the resulting model. 
+
+\section*{Q.6}
+When the variable's distribution is skewed. 
+
+\section*{Q.7}
+A metric over the multivariate space of the variables used to describe the observations. A popular choice is the Euclidean distance informally defined as the  square root of the sum of squared differences between the values in any two cases. 
+
+\section*{Q.8}
+Its value is in the same units as the target variable
+
+\section*{Q.9}
+The basic idead of the relative error metric is to find the regression tree with the least amount of error while also avoiding overfitting. 
+
+\section*{Assignment}
+
+\end{document}

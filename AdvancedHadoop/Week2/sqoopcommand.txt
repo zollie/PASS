@@ -1,0 +1,1 @@
+/srv/sqoop/bin/sqoop import --connect jdbc:mysql://localhost/wikistats --table wikistats --hbase-table wikistats --column-family pagecounts --hbase-row-key pagename --hbase-create-table --where "language=en" -m 1 >& ~/sqoop.out &

@@ -1,0 +1,80 @@
+bondsba01	Barry	Bonds	73.0	2001
+mcgwima01	Mark	McGwire	70.0	1998
+sosasa01	Sammy	Sosa	66.0	1998
+mcgwima01	Mark	McGwire	65.0	1999
+sosasa01	Sammy	Sosa	64.0	2001
+sosasa01	Sammy	Sosa	63.0	1999
+marisro01	Roger	Maris	61.0	1961
+ruthba01	Babe	Ruth	60.0	1927
+ruthba01	Babe	Ruth	59.0	1921
+howarry01	Ryan	Howard	58.0	2006
+foxxji01	Jimmie	Foxx	58.0	1932
+greenha01	Hank	Greenberg	58.0	1938
+gonzalu01	Luis	Gonzalez	57.0	2001
+rodrial01	Alex	Rodriguez	57.0	2002
+griffke02	Ken	Griffey	56.0	1998
+griffke02	Ken	Griffey	56.0	1997
+wilsoha01	Hack	Wilson	56.0	1930
+ortizda01	David	Ortiz	54.0	2006
+rodrial01	Alex	Rodriguez	54.0	2007
+kinerra01	Ralph	Kiner	54.0	1949
+ruthba01	Babe	Ruth	54.0	1920
+ruthba01	Babe	Ruth	54.0	1928
+mantlmi01	Mickey	Mantle	54.0	1961
+bautijo02	Jose	Bautista	54.0	2010
+thomeji01	Jim	Thome	52.0	2002
+mantlmi01	Mickey	Mantle	52.0	1956
+mcgwima01	Mark	McGwire	52.0	1996
+mayswi01	Willie	Mays	52.0	1965
+fostege01	George	Foster	52.0	1977
+rodrial01	Alex	Rodriguez	52.0	2001
+mizejo01	Johnny	Mize	51.0	1947
+fieldce01	Cecil	Fielder	51.0	1990
+kinerra01	Ralph	Kiner	51.0	1947
+mayswi01	Willie	Mays	51.0	1955
+jonesan01	Andruw	Jones	51.0	2005
+foxxji01	Jimmie	Foxx	50.0	1938
+belleal01	Albert	Belle	50.0	1995
+sosasa01	Sammy	Sosa	50.0	2000
+anderbr01	Brady	Anderson	50.0	1996
+fieldpr01	Prince	Fielder	50.0	2007
+vaughgr01	Greg	Vaughn	50.0	1998
+ruthba01	Babe	Ruth	49.0	1930
+griffke02	Ken	Griffey	49.0	1996
+dawsoan01	Andre	Dawson	49.0	1987
+robinfr02	Frank	Robinson	49.0	1966
+walkela01	Larry	Walker	49.0	1997
+kluszte01	Ted	Kluszewski	49.0	1954
+pujolal01	Albert	Pujols	49.0	2006
+gehrilo01	Lou	Gehrig	49.0	1936
+mcgwima01	Mark	McGwire	49.0	1987
+MIA	NL	Miami Marlins	4373259.259259259
+LAA	AL	Los Angeles Angels of Anaheim	4080472.547826087
+NYA	AL	New York Yankees	3463102.598300971
+BOS	AL	Boston Red Sox	2602856.6294046175
+ARI	NL	Arizona Diamondbacks	2387807.7757009347
+NYN	NL	New York Mets	2342284.3291925467
+LAN	NL	Los Angeles Dodgers	2168142.2279855246
+CHN	NL	Chicago Cubs	2130494.451572327
+ATL	NL	Atlanta Braves	2093053.3403205918
+MIL	NL	Milwaukee Brewers	2037463.7470725996
+WAS	NL	Washington Nationals	1998608.8127659576
+PHI	NL	Philadelphia Phillies	1953949.2742514971
+SFN	NL	San Francisco Giants	1939472.9633838383
+CHA	AL	Chicago White Sox	1910675.211734694
+SEA	AL	Seattle Mariners	1902281.9292929294
+COL	NL	Colorado Rockies	1902027.187817259
+SLN	NL	St. Louis Cardinals	1882744.8457831326
+DET	AL	Detroit Tigers	1856686.8688524591
+TEX	AL	Texas Rangers	1802135.7094763091
+BAL	AL	Baltimore Orioles	1739916.4113389626
+HOU	NL	Houston Astros	1730633.6615581098
+TOR	AL	Toronto Blue Jays	1678826.6075471698
+TBA	AL	Tampa Bay Rays	1487190.9791666667
+CLE	AL	Cleveland Indians	1486403.3718712754
+CIN	NL	Cincinnati Reds	1486179.5200974422
+MIN	AL	Minnesota Twins	1479543.4407456724
+SDN	NL	San Diego Padres	1282461.3391089109
+OAK	AL	Oakland Athletics	1279142.661407767
+KCA	AL	Kansas City Royals	1214475.938131313
+PIT	NL	Pittsburgh Pirates	1021029.4264884569

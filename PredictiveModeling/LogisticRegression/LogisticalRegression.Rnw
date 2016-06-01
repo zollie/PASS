@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Predictive Modeling\\Lesson 3\\\emph{Logistical Regression and Neural Networks}}
+\date{09/29/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+The RStudio project files and accompanying artifacts, including the tex file that created this PDF, are publicly available on GitHub
+\\
+\url{https://github.com/zollie/PASS-PredictiveModeling-LogisticalRegression}
+
+\section*{Data Setup}
+I took the Excel spreadsheet and saved it as a CSV for easy import into R
+<<>>=
+gc <- read.csv("~/R/PASS/PredictiveModeling/LogisticRegression/GermanCredit.csv")
+head(gc)
+@
+
+\noindent
+The categorical predictors are turned into factors for R
+<<>>=
+gc$RESPONSE <- factor(gc$RESPONSE)
+gc$JOB <- factor(gc$JOB)
+gc$EMPLOYMENT <- factor(gc$EMPLOYMENT)
+gc$SAV_ACCT <- factor(gc$SAV_ACCT)
+gc$HISTORY <- factor(gc$HISTORY)
+gc$CHK_ACCT <- factor(gc$CHK_ACCT)
+@
+
+\section*{Partitioning}
+Next, the data is paritioned into 60\% Train and 40\% Test sets. I set the RNG seed for reproducibility
+<<>>=Partitioning Data into Train(60%) and Validation(40%)
+n <- nrow(gc)
+a <- sort(sample(1:n, floor(n*.6)))
+gc.train <- gc[a,]
+gc.test <- gc[-a,]
+@
+
+\section*{Logistical Regression}
+A Logistical Regression model is fit to the train data. 
+
+<<>>=
+logit <- glm(RESPONSE ~ CHK_ACCT+DURATION+HISTORY+NEW_CAR+USED_CAR+FURNITURE+RADIO.TV+EDUCATION+RETRAINING+AMOUNT+SAV_ACCT+EMPLOYMENT+INSTALL_RATE+MALE_DIV+MALE_SINGLE+MALE_MAR_or_WID+CO.APPLICANT+GUARANTOR+PRESENT_RESIDENT+REAL_ESTATE+PROP_UNKN_NONE+AGE+OTHER_INSTALL+RENT+OWN_RES+NUM_CREDITS+JOB+NUM_DEPENDENTS+TELEPHONE+FOREIGN, data=gc.train, family=binomial("logit"))
+
+logit
+
+summary(logit)
+
+confint(logit)
+
+residuals(logit)
+
+@
+
+\subsection*{Using the model with the test data}
+The test data is then run through the model
+<<>>=
+p.test <- predict(logit, gc.test, type="response")
+summary(p.test)
+@
+
+\subsection*{Classification Table}
+A baseline Classification Table with cutoff = 50\% is given
+<<>>=
+library(gmodels)
+p.test.vals <- sapply(p.test, function(y) { ifelse(y<.5,0, 1) })
+CrossTable(gc.test$RESPONSE, p.test.vals, dnn = c("Actual", "Predicted"))
+@
+
+\subsection*{ROC Curve}
+<<>>=
+library(ROCR)
+p.rocr <- prediction(p.test, gc.test$RESPONSE)
+p.rocr.roc <- performance(p.rocr, "tpr", "fpr")
+plot(p.rocr.roc, main="ROC Curve", colorize=T)
+@
+\includegraphics[width=0.98\textwidth]{ROCCurve.pdf}
+
+
+\subsection*{Lift Curve}
+<<>>=
+p.rocr.lift <- performance(p.rocr, "lift", "rpp")
+plot(p.rocr.lift, main="Lift Curve", colorize=T)
+@
+\includegraphics[width=0.98\textwidth]{LiftCurve.pdf}
+
+\subsection{Classification Table with different cutoff values}
+<<>>=
+
+calcNetProfit <- function(facts, preds, cutoff) {
+  vals <- sapply(preds, function(y) { ifelse(y<cutoff,0, 1) })  
+  ct <- CrossTable(facts, vals, dnn = c("Actual", "Predicted"))
+  print("Profit with cutoff")
+  print(cutoff)
+  profitFromCrossTable(ct)
+}
+
+profitFromCrossTable <- function(ct) {
+  profit <- ct$t[1,1] * 100
+  loss <- ct$t[2,1] * -500
+  profit - loss
+}
+s <- seq(0,1, by = .1)
+for(i in s) { print(calcNetProfit(gc.test$RESPONSE, p.test, i)) }
+@
+
+
+\section*{Lesson 3 Question and Answer}
+\subsection*1\emph{Comments on the models}
+
+\noindent
+
+\subsection*2\emph{If you want to select 275 customers from the validation data set, which model would you adopt for credit rating? Why?}
+\newline
+\newline
+\noindent
+With a value for k too small we will classify in a way that is very sensitive to the local characteristcs of the training data.
+\newline
+\newline
+\noindent
+With a value of k too large we essentially overfit, ignoring the information contained in the predictor variables. In the extreme with k equal the number of observations in the train data all test data is assigned to the most frequent class in the train data, Owner in the present case. 
+
+\end{document}

@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+
+\author{Kevin Zollicoffer}
+\title{Predictive Modeling\\Lesson 2\\\emph{CART}}
+\date{09/23/2013}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+The RStudio project files and accompanying artifacts, including the tex file that created this PDF, are publicly available on GitHub
+\\
+\url{https://github.com/zollie/PASS-PredictiveModeling-CART}
+
+\section*{Data Setup}
+I took the Excel spreadsheet and saved it as a CSV for easy import into R
+<<>>=
+wine <- read.csv("~/R/PASS/PredictiveModeling/CART/Wine.csv")
+wine <- wine[1:178,1:14]
+head(wine)
+@
+
+\section*{Partitioning}
+Next, partition the data into 50\% Train and 50\% Test sets. I set the RNG seed for reproducibility
+<<>>=Partitioning Data into Train(50%) and Validation(50%)
+set.seed(21275)
+n <- nrow(wine)
+nt <- sort(sample(1:n, floor(n/2)))
+train <- wine[nt,]
+test <- wine[-nt,]
+head(train)
+head(test)
+@
+
+\section*{CART with the rpart package}
+First we build the decision tree with train data
+<<>>=
+library(rpart)
+fit <- rpart(Type ~ ., data=train, method="class", minbucket = 1)
+@
+
+\noindent
+Then make predictions using the test data
+<<>>=
+pred <- predict(fit, newdata=test, type="class")
+tab <- table(pred, test[,"Type"]) 
+@
+Visually the tree looks like
+<<>>=
+library(rpart.plot)
+prp(fit)
+@
+
+\includegraphics[width=0.98\textwidth]{rpart-fit-prp-default.pdf}
+
+
+\section*{Lesson 2 Question and Answer}
+\subsection*1\emph{What is the error rate for the validation data?}
+
+<<>>=
+printcp(fit)
+@
+\noindent 
+The error rate is 
+<<>>=
+1-sum(diag(tab))/sum(tab)
+@
+
+\noindent
+
+\subsection*2\emph{Indicate the number of misclassification}
+\newline
+\newline
+\noindent
+The Classification Matrix is given below
+
+<<>>=
+tab
+@
+
+\subsection*3\emph{Study the Best Pruned tree and develop a set of classification rules, using if-then statement; e.g. "if a >= b then A" and "if a < b then B" }
+
+<<>>=
+fit
+@
+
+\noindent
+If Proline greater than or equal to 760 and Color greater than or equal to 4.8 and Flavanoids greater than or equal to 1.4 then C
+\\
+\\
+\noindent
+If Proline greater than or equal to 760 and Color greater than or equal to 4.8 and Flavanoids less than 1.4 then B
+\\
+\\
+\noindent
+If Proline greater than or equal to 760 and Color less than 4.8 and Flavanoids greater than or equal to .52 then C
+\\
+\\
+\noindent
+If Proline greater than or equal to 760 and Color less than 4.8 and Flavanoids less than .52 and Ash greater than or equal to 2.8 then B
+\\
+\\
+\noindent
+If Proline greater than or equal to 760 and Color less than 4.8 and Flavanoids less than .52 and Ash less than 2.8 then A
+\\
+\\
+\noindent
+If Proline less than 760 and  Total Phenols greater than or equal to 2.1 then C
+\\
+\\
+\noindent
+If Proline less than 760 and  Total Phenols less than 2.1 then A
+\end{document}
+
+
+

@@ -1,0 +1,111 @@
+Exercises for Week Three: Computing with MapReduce
+==================================================
+
+Grading for all questions is as follows:
+
+* 5 points: Discssion prompt
+* 5 points: correct implementation and application of mapper
+* 5 points: correct implementation and application of reducer
+* 5 points: correct computational results
+
+Discussion prompt (5 points)
+
+========================
+
+Consider a dataset of flights, where each record in the data set is the originating airport, the destination airport, the schedule arrival and departure times, and the actual arrival and departure times (in terms of wheels up and wheels down), along with distance in air miles. Discuss the data flow of designing a system that attempts to predict possible delays given this statistical history. What MapReduce jobs would be needed? Are there any concerns for individual tasks? What building blocks would be required? Are there any special implementations of partitioners or other internals that can be taken advantage of?
+
+========================
+For both questions, write a MapReduce job in any programming language you
+choose. If you write it in Java, compile the JAR and send the job to the
+cluster. If you write it in a different language, leverage Hadoop Streaming
+to execute the job on HDFS. Please submit both the source code for your
+mappers and reducers, as well as the output from the job, which you can
+fetch from the cluster by using `hadoop fs -getmerge`.
+
+Question One (15 Points)
+========================
+
+Compute the Term Frequency-Inverse Document Frequency for words in the
+dataset of Reuters newswire articles that is included in the course
+resources section.
+
+The reuters newswire dataset includes articles from the newswire combined
+into a single text document. Each article is headed by the document ID
+surrounded by 34 "=" signs as below:
+
+================================== 14826 ==================================
+
+To extract the document id simply check if the first and last character of
+the line is an "=" sign, then strip them off as well as spaces, and you'll
+be left with the document id.
+
+Because TF-IDF is not a memory safe operation, I have also included a list
+of stopwords as part of the dataset. Please use this list of stopwords to
+exclude words from the TF-IDF computation.
+
+For more details about how to compute TF-IDF please see the discussion in
+the lecture notes for Week Three. Keep in mind that in order to perform
+this task, you will need to write perform three distinct MapReduce jobs.
+
+The resulting output should be significantly long. Feel free to turn in
+the whole thing, but also submit the following terms' computation for
+grading:
+
+* beacon
+* draconian
+* espionage
+* matrix
+* pizza
+* shasta
+* zuccherifici
+
+A note on the dataset:
+
+This data is part of the included corpora in NLTK: http://nltk.org/ a
+natural language toolkit writtin in Python.
+
+It contains 10,788 news wire articles and is 3.3 MB compressed and 9.7MB
+uncompressed. It is only a partial sample of reuters news articles.
+
+Question Two (15 Points)
+========================
+
+Last week we computed the average flights per day and the mean arrival
+totalDelay using the On Time Performance data set for January 2013. This week,
+let's go farther and compute all statistical metrics for each airport's
+arrival totalDelay data set. Include:
+
+1. The number of flights per airport
+2. The mean arrival totalDelay per airport
+3. The arrival totalDelay standard deviation per airport
+4. The minimum arrival totalDelay per airport
+5. The maximum arrival totalDelay per airport
+
+The output should be as follows:
+
+AIRPORT    NUMFLIGHTS    AVGDELAY    STDDEV    MIN    MAX
+
+Where the output key is the Airport Code and the output value is the
+stripe of the statistical metrics. Please also use the combiner/reducer
+pattern we observed in this week's lecture.
+
+There will be as many rows in the output as there are Airports in the
+data set. To help with grading, please highlight the following airports:
+
+* JFK
+* SFO
+* IAD
+* BWI
+* ORD
+* SEA
+* LAX
+* MSP
+* HOU
+
+A note on the data set:
+
+This data set is from: http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time
+
+It contains flight information for U.S. flights for the month of January
+2013, comprising of 509,519 rows of flight departure and arrival
+performance with delays. It is 8.3 MB compressed and 60 MB uncompressed.

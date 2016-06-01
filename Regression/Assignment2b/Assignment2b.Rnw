@@ -1,0 +1,187 @@
+\documentclass{article}
+\usepackage{graphics} 
+\usepackage{hyperref}
+\usepackage{fixltx2e}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\author{Kevin Zollicoffer}
+\title{Regression\\Lesson 2b}
+\date{10/21/2013}
+
+% no indents
+\setlength\parindent{0pt}
+
+\begin{document}
+\maketitle
+%\tableofcontents
+\SweaveOpts{concordance=TRUE}
+
+\section*{Introduction}
+Regression assignment 2b using R
+\\
+\\
+The complete source for this assigment is available on Github:
+\\
+\\
+\url{https://github.com/zollie/PASS-Regression-Assignment2b}
+
+\section*{Problem 3.5}
+\subsection*{a}
+$E(Att) = 28.721+1.350Pop-.972Teams-.238Temp$
+\\\\
+or
+\\\\
+$\hat{Att} = 28.721+1.350Pop-.972Teams-.238Temp$
+\\\\
+\subsection*{b}
+Global usefulness test
+\\\\
+$H_0=b_0=b_1=b_2=0$
+\\\\
+$H_a=b_0\neq0 \lor b_1\neq0 \lor b_2\neq0$
+\\\\
+significance level is 5\% $(1-.95 = .05)$ for upper tail test
+\\\\
+$R^2=.914$
+$k=3$
+$n=12$
+\\\\
+F-statistic$={R^2/k \over (1-R^2)/(n-k-1)}={.914/3 \over (1-.914)/(12-3-1)}={.3046687 \over .01075}=28.27907$
+\\\\
+$28.279 > 4.07$ therefore we reject $H_0$
+
+\subsection*{c}
+$H_0=b_1=0$
+\\
+$H_a=b_1<0$
+\\
+p-value$=.037/2=.0185$
+
+.0185 < .05 therefore reject $H_0$
+\\\\
+This suggestes the model predicts a non-zero drop in attendence for each additional male major professional sports team to an MLS city. 
+
+\subsection*{d}
+The coefficient for Teams is -0.972, therefore for every additional male professional major sport team, all other things constant, the model predicts a decline of 972,000 attedees for that cities MLS franchise. 
+
+\subsection*{e}
+Presumably, home attendance for a sports franchise is the major source of revenue for a team. These attendees pay a ticket fee to attend the game. Knowing the fee, a potential team, or league can determine the break even point for attendence given the potential location of the team. A model such as this gives a data driven, objective, decision making tool that can help determine whether a potential location is viable for an MLS franchise.  
+
+\section*{Problem 3.6}
+<<>>=
+smsa <- read.csv("~/R/PASS/Regression/Assignment2b/smsa.csv")
+@
+
+\subsection*{a}
+<<>>=
+model <- lm(Mort ~ Edu+Nwt+Jant+Rain+Nox+Hum+Inc, data=smsa)
+summary(model)
+@
+$\hat{Y} = 1006.2441-15.3459Edu+4.2140Nwt-2.15Jant+1.6238Rain+18.5481Nox+.5371Hum-.3453Inc$
+
+\subsection*{b}
+$H_0=Hum=Inc=0$
+\\
+$H_a=Hum\neq0 \lor Inc\neq0$
+<<>>=
+model0 <- lm(Mort ~ Hum+Inc, data=smsa)
+summary(model0)
+
+k <- 2
+n <- nrow(smsa)
+df2 <- n-k-1
+qf(0.05, k, df2, lower.tail=F)
+@
+2.466 < 3.17 therefore we do not reject $H_0$. The coefficients for Hum and Inc may be statistically 0.
+
+\subsection*{c}
+<<>>=
+options(scipen=999) # disable scientific notation
+modelr <- lm(Mort ~ Edu+Nwt+Jant+Rain+Nox, data=smsa)
+summary(modelr)
+@
+\subsubsection*{Edu}
+$H_0=Edu=0$
+$H_a=Edu \neq 0$
+\\
+p-value of 0.0000000000000002 < 0.025 therefore reject $H_0$
+\subsubsection*{Nwt}
+$H_0=Nwt=0$
+$H_a=Nwt \neq 0$
+\\
+p-value of 0.01927 < 0.025 therefore reject $H_0$
+\subsubsection*{Jant}
+$H_0=Jant=0$
+$H_a=Jant \neq 0$
+\\
+p-value of 0.000000066 < 0.025 therefore reject $H_0$
+\subsubsection*{Rain}
+$H_0=Rain=0$
+$H_a=Rain \neq 0$
+\\
+p-value of 0.00493 < 0.025 therefore reject $H_0$
+\subsubsection*{Nox}
+$H_0=Nox=0$
+$H_a=Nox \neq 0$
+\\
+p-value of 0.00493 < 0.025 therefore reject $H_0$
+
+\subsection*{d}
+Random error assumptions
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+scatter.smooth(fitted(modelr))
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+res <- residuals(modelr)
+fitted <- predict(modelr)
+plot(smsa$Edu, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(smsa$Nwt, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(smsa$Jant, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(smsa$Rain, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(smsa$Nox, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+plot(fitted, res)
+@
+
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+qqnorm(res)
+qqline(res)
+@
+<<fig=TRUE, include=TRUE, echo=TRUE>>=
+hist(res, freq=T)
+@
+
+\subsection*{e}
+$\hat{Y}=1028.2323-15.5887Edu+4.1807Nwt-2.1313Jant+1.6331Rain+18.4132Nox$
+\\\\
+The signs of the estimated regression parameters make sense in this context in a few ways. Life expectancy increeases with the level of education (the rate of mortality declines), the rate of mortality incresases as the amount of NO gas in the atmosphere increases. Mortality increases with amount of rain as well, perhaps due to accidents.  
+
+\subsection*{f}
+<<>>=
+nd <- data.frame(Edu=10,Nwt=15,Jant=35,Rain=40,Nox=2)
+predict(modelr, newdata=nd, interval="confidence")
+@
+
+\subsection*{g}
+<<>>=
+predict(modelr, newdata=nd, interval="prediction")
+@
+
+\end{document}

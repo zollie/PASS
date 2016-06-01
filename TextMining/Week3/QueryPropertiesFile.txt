@@ -1,0 +1,6 @@
+doctag=FINANCES
+bodytags=TITLE BODY
+labeltag=TOPICS
+infile=queryfile.txt
+stopwords=stopword.txt
+stems=stemwds.txt
