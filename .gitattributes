@@ -1,3 +1,5 @@
+*.pdf linguist-language=R
+
 *.doc  diff=astextplain
 *.DOC	diff=astextplain
 *.docx	diff=astextplain
